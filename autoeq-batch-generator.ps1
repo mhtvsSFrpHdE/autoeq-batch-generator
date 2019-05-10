@@ -100,7 +100,7 @@ foreach ($targetCurveObject in $targetCurveObjectArray) {
     $resultDisplayName = $targetCurveObject.ResultDisplayName
     $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
 
-    if ($headphoneType){
+    if ($checkHeadphoneType){
         if ($useCalibrationFile){
             WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
         }
