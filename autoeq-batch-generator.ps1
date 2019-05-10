@@ -18,7 +18,7 @@ $dataSource = "innerfidelity"
 # Available option:
 # "OverEar"
 # "InEar"
-$headphoneType = "OverEar"
+$headphoneType = "OnEar"
 
 # AutoEq install path
 $autoEqInstallPath = "C:\AutoEq-master"
