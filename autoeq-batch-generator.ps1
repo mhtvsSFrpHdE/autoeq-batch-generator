@@ -42,6 +42,7 @@ $dataSourceInnerfidelity = "innerfidelity"
 $dataSourceHeadphonecom = "headphonecom"
 $dataSourceRtings = "rtings"
 $displayNamePrefix = "_simulate_"
+$universalHeadphoneType = "None"
 $calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
 $calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
 $calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
@@ -65,7 +66,7 @@ foreach ($targetCurveObject in $targetCurveObjectArray) {
     # Assign by if statement later
     $calibrationFile = ""
 
-    if ($headphoneType -eq $targetCurveObject.HeadphoneType){
+    if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
         $checkHeadphoneType = $true
     }
 
