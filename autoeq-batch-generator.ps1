@@ -42,6 +42,10 @@ $dataSourceInnerfidelity = "innerfidelity"
 $dataSourceHeadphonecom = "headphonecom"
 $dataSourceRtings = "rtings"
 $displayNamePrefix = "_simulate_"
+$calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
+$calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
+$calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
+$calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
 
 # Write script
 # So Windows XP doesn't really have a UTF-8 code page, will not work on that.
@@ -71,16 +75,16 @@ foreach ($targetCurveObject in $targetCurveObjectArray) {
 
         # Set file path when trying to use calibration file
         if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-            $calibrationFile = "calibration\headphonecom_to_innerfidelity.csv"
+            $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
         }
         elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
-            $calibrationFile = "calibration\innerfidelity_to_headphonecom.csv"
+            $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
         }
         elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
-            $calibrationFile = "calibration\innerfidelity_to_rtings.csv"
+            $calibrationFile = $calibrationFileInnerfidelityToRtings
         }
         elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-            $calibrationFile = "calibration\rtings_to_innerfidelity.csv"
+            $calibrationFile = $calibrationFileRtingsToInnerfidelity
         }
         else{
             # No calibration available, skip use calibration file
