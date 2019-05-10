@@ -15,8 +15,6 @@ The powershell script will read the predefined config file, and do something aut
 Planned feature:
 - None
 
-TODO: remove the calibration file path magic variable.  
-
 **How to use**  
 Before execute, you need to download my reference library:  
 https://github.com/mhtvsSFrpHdE/cmd-script-the-powershell-way  
