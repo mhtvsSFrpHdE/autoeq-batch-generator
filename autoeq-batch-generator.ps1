@@ -47,75 +47,152 @@ $calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_inner
 $calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
 $calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
 $calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
+$venvDetectPath = "$autoEqInstallPath\venv"
 
-# Write script
-# So Windows XP doesn't really have a UTF-8 code page, will not work on that.
-# Use 65001 code page to cover the non-ANSI file name.
-CreateCmdScript
-WriteCmdScript "chcp 65001"
-WriteCmdScript "cd /d `"$autoEqInstallPath`""
-WriteCmdScript "call venv\Scripts\activate.bat"
 
-# Read target curve config file
-$targetCurveObjectArray = Get-Content $targetCurveJsonPath | ConvertFrom-Json
 
-# Loop through the array and export single object
-foreach ($targetCurveObject in $targetCurveObjectArray) {
-    # Create two bool variable and initalize as false
-    $checkHeadphoneType = $useCalibrationFile = $false
-    # Assign by if statement later
-    $calibrationFile = ""
+# TODO
+# Use namespace to arrange function
+# Preprocess script running environment
+function EnvironmentSetup {
+    # If venv folder doesn't exist(first run)
+    # or just skip environment setup
+    if (! (Test-Path $venvDetectPath) ) {
+        Write-Output "You don't have AutoEq environment requirement installed."
+        Write-Output "Confirm to start the install script."
+        Pause
+        Write-Output ""
 
-    if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
-        $checkHeadphoneType = $true
+        # Create the environment setup script
+        CreateCmdScript
+        WriteCmdScript "chcp 65001"
+        WriteCmdScript "cd /d `"$autoEqInstallPath`""
+        WriteCmdScript "virtualenv venv -v"
+        WriteCmdScript "call venv\Scripts\activate.bat"
+        WriteCmdScript "pip install -r requirements.txt"
+        WriteCmdScript "pause"
+        WriteCmdScript "exit"
+
+        $keepLoopMark = $false
+        do {
+            # Run environment setup script
+            RunCmdScript -Wait
+    
+            # Ask user for the script execute result
+            Write-Output "Did the requirements installed successfully?"
+            Write-Output "Or there's error needs to be fix manually?"
+            Write-Output ""
+            Write-Output "Y, all success(run AutoEq)."
+            Write-Output "N, I do it manually(stop script)."
+            Write-Output "R, Anyway, just retry it for me."
+            Write-Output "Default is N."
+            Write-Output ""
+    
+            $ReadUserResult = 0
+            $ReadUser = Read-Host "Y/N/R" 
+            Write-Output ""
+            Switch ($ReadUser) 
+            { 
+                Y {$ReadUserResult = 1} 
+                N {$ReadUserResult = 2} 
+                R {$ReadUserResult = 3}
+                Default {$ReadUserResult = 2} 
+            }
+    
+            if ($ReadUserResult -eq 3){
+                $keepLoopMark = $true
+            }
+            elseif ($ReadUserResult -eq 2) {
+                exit
+            }
+            else {
+                $keepLoopMark = $false
+            }
+        } while ($keepLoopMark)
     }
+}
 
-    # If headphone data come from different data souce
-    if ( !($dataSource -eq $targetCurveObject.DataSource) ){
-        $useCalibrationFile = $true
+# Config execute environment
+function AutoEq_ScriptHeader {
+    CreateCmdScript
 
-        # Set file path when trying to use calibration file
-        if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-            $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
-        }
-        elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
-            $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
-        }
-        elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
-            $calibrationFile = $calibrationFileInnerfidelityToRtings
-        }
-        elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-            $calibrationFile = $calibrationFileRtingsToInnerfidelity
-        }
-        else{
-            # No calibration available, skip use calibration file
-            $useCalibrationFile = $false
-        }
-    }
+    # So Windows XP doesn't really have a UTF-8 code page, will not work on that.
+    # Use 65001 code page to cover the non-ANSI file name.
+    WriteCmdScript "chcp 65001"
+    WriteCmdScript "cd /d `"$autoEqInstallPath`""
+    WriteCmdScript "call venv\Scripts\activate.bat"
+}
 
-    # Update compensationFile
-    $compensationFile = $targetCurveObject.CompensationFile
+# Code about fill argument to frequency_response.py
+function AutoEq_ScriptBody {
+    # Read target curve config file
+    $targetCurveObjectArray = Get-Content $targetCurveJsonPath | ConvertFrom-Json
 
-    # Update result save path by using result display name
-    $resultDisplayName = $targetCurveObject.ResultDisplayName
-    $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
+    # Loop through the array and export single object
+    foreach ($targetCurveObject in $targetCurveObjectArray) {
+        # Create two bool variable and initalize as false
+        $checkHeadphoneType = $useCalibrationFile = $false
+        # Assign by if statement later
+        $calibrationFile = ""
 
-    if ($checkHeadphoneType){
-        if ($useCalibrationFile){
-            WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+        if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
+            $checkHeadphoneType = $true
         }
-        else{
-            WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+
+        # If headphone data come from different data souce
+        if ( !($dataSource -eq $targetCurveObject.DataSource) ){
+            $useCalibrationFile = $true
+
+            # Set file path when trying to use calibration file
+            if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
+                $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
+            }
+            elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
+                $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
+            }
+            elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
+                $calibrationFile = $calibrationFileInnerfidelityToRtings
+            }
+            elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
+                $calibrationFile = $calibrationFileRtingsToInnerfidelity
+            }
+            else{
+                # No calibration available, skip use calibration file
+                $useCalibrationFile = $false
+            }
+        }
+
+        # Update compensationFile
+        $compensationFile = $targetCurveObject.CompensationFile
+
+        # Update result save path by using result display name
+        $resultDisplayName = $targetCurveObject.ResultDisplayName
+        $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
+
+        if ($checkHeadphoneType){
+            if ($useCalibrationFile){
+                WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+            }
+            else{
+                WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+            }
         }
     }
 }
 
 # Write pause and exit at the end of cmd script
-WriteCmdScript "pause"
-WriteCmdScript "exit"
+function AutoEq_ScriptFoot {
+    WriteCmdScript "pause"
+    WriteCmdScript "exit"
+}
 
-# Call explorer to simulate user double-click behavior then quit powershell
-# Double click this damn cmd script
-explorer "$CMD_SCRIPT_FILE"
+# Call functions
+EnvironmentSetup
+AutoEq_ScriptHeader
+AutoEq_ScriptBody
+AutoEq_ScriptFoot
+
+# Run AutoEq
+RunCmdScript
 # quit powershell
 exit
