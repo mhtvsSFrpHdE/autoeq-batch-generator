@@ -1,8 +1,6 @@
 # autoeq-batch-generator
 **Contact**  
-Send issue or contrct to ```GitUserYbRoH5dUR1Bf|outlook|com```,  
-replace the pipe ```|``` to ```@``` in email address.  
-This is for anti spam robot scan.  
+See https://github.com/mhtvsSFrpHdE/contact-me  
 
 **What is this**  
 In normally you need to type in the AutoEq launch command and argument in order to use it.  
