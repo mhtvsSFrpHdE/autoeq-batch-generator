@@ -1,4 +1,9 @@
 # autoeq-batch-generator
+**Contact**  
+Send issue or contrct to ```GitUserYbRoH5dUR1Bf|outlook|com```,  
+replace the pipe ```|``` to ```@``` in email address.  
+This is for anti spam robot scan.  
+
 **What is this**  
 In normally you need to type in the AutoEq launch command and argument in order to use it.  
 When you want to generate five eq settings for same headphone, things not that handy.  
