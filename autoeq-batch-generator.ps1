@@ -132,36 +132,11 @@ function AutoEq_ScriptBody {
 
     # Loop through the array and export single object
     foreach ($targetCurveObject in $targetCurveObjectArray) {
-        # Create two bool variable and initalize as false
-        $checkHeadphoneType = $useCalibrationFile = $false
-        # Assign by if statement later
-        $calibrationFile = ""
+        # Create a bool to check headphone type
+        $checkHeadphoneType = $false
 
         if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
             $checkHeadphoneType = $true
-        }
-
-        # If headphone data come from different data souce
-        if ( !($dataSource -eq $targetCurveObject.DataSource) ){
-            $useCalibrationFile = $true
-
-            # Set file path when trying to use calibration file
-            if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-                $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
-            }
-            elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
-                $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
-            }
-            elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
-                $calibrationFile = $calibrationFileInnerfidelityToRtings
-            }
-            elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-                $calibrationFile = $calibrationFileRtingsToInnerfidelity
-            }
-            else{
-                # No calibration available, skip use calibration file
-                $useCalibrationFile = $false
-            }
         }
 
         # Update compensationFile
@@ -172,13 +147,45 @@ function AutoEq_ScriptBody {
         $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
 
         if ($checkHeadphoneType){
-            if ($useCalibrationFile){
-                WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-            }
-            else{
-                WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-            }
         }
+
+
+        # $useCalibrationFile = $false
+
+        # # Assign by if statement later
+        # $calibrationFile = ""
+
+        # # If headphone data come from different data souce
+        # if ( !($dataSource -eq $targetCurveObject.DataSource) ){
+        #     $useCalibrationFile = $true
+
+        #     # Set file path when trying to use calibration file
+        #     if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
+        #         $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
+        #     }
+        #     elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
+        #         $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
+        #     }
+        #     elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
+        #         $calibrationFile = $calibrationFileInnerfidelityToRtings
+        #     }
+        #     elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
+        #         $calibrationFile = $calibrationFileRtingsToInnerfidelity
+        #     }
+        #     else{
+        #         # No calibration available, skip use calibration file
+        #         $useCalibrationFile = $false
+        #     }
+        # }
+
+        # if ($checkHeadphoneType){
+        #     if ($useCalibrationFile){
+        #         WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+        #     }
+        #     else{
+        #         WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+        #     }
+        # }
     }
 }
 
