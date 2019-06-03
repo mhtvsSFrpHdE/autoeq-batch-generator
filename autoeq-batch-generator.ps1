@@ -37,7 +37,7 @@ $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 . ".\cstpw.ps1"
 
 # Other default values
-$targetCurveJsonPath = ".\targetCurve.json"
+$configPath = ".\targetCurve.json"
 # $dataSourceInnerfidelity = "innerfidelity"
 # $dataSourceHeadphonecom = "headphonecom"
 # $dataSourceRtings = "rtings"
