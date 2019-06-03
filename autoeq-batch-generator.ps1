@@ -33,11 +33,14 @@ $trebleMaxGain = $maxGain
 
 # Set cmd script file location
 $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
-# Load code library
-. ".\cstpw.ps1"
+
+
 
 # Other default values
+$libCtspw = ".\cstpw.ps1"
+$libSimpleCatch = ".\simplecatch.ps1"
 $configPath = ".\targetCurve.json"
+
 # $dataSourceInnerfidelity = "innerfidelity"
 # $dataSourceHeadphonecom = "headphonecom"
 # $dataSourceRtings = "rtings"
