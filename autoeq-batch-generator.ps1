@@ -247,12 +247,31 @@ function AutoEq_ScriptFoot {
 }
 
 # Call functions
-EnvironmentSetup
-AutoEq_ScriptHeader
-AutoEq_ScriptBody
-AutoEq_ScriptFoot
+Initialize
+if($checkInitialize){
+    . $libCtspw
+    . $libSimpleCatch
+    try{
+        # Prepare environment
+        EnvironmentSetup
 
-# Run AutoEq
-RunCmdScript
+        # Create script
+        AutoEq_ScriptHeader
+        AutoEq_ScriptBody
+        AutoEq_ScriptFoot
+
+        # Run AutoEq
+        RunCmdScript
+    }
+    catch{
+        SimpleCatch $_
+    }
+
+}
+else{
+    Write-Error $errMsgFailedToInitialize
+    exit 1
+}
+
 # quit powershell
 exit
