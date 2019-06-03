@@ -8,19 +8,21 @@ When you want to generate five eq settings for same headphone, things not that h
 The powershell script will read the predefined config file, and do something automated.
 - Change working directory
 - Change code page to prevent wrong encoding
+- Check virtualenv environment
+- Install virtualenv and other dependencies if they are not exist
 - Active virtualenv
-- Auto reconize which calibration file to use by predefined rules
 - Control output folder
 - Add output folder suffix for different curve
 - Control max_gain, treble_max_gain value
-- Put a pause statement at the end of script
+- Pause after command execute
 
 Planned feature:
-- None
+- Update command generator core code to latest AutoEq API 
 
 **How to use**  
-Before execute, you need to download my reference library:  
+Before execute, you need to download my dependencies library:  
 https://github.com/mhtvsSFrpHdE/cmd-script-the-powershell-way  
+#TODO Upload another dependencies 
 Paste the ```cstpw.ps1``` to the same folder as ```autoeq-batch-generator.ps1```.
 
 Use your text editor to open ```autoeq-batch-generator.ps1``` but do not run it.  
