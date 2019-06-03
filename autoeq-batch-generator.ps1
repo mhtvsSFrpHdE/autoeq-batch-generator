@@ -52,7 +52,13 @@ $universalHeadphoneType = "None"
 # $calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
 $venvDetectPath = "$autoEqInstallPath\venv"
 
+$errMsg = "ERR:"
+$errMsgEmptyValueInConfig = "$errMsg Empty value in config file."
+$errMsgFailedToInitialize = "$errMsg Failed to initialize."
 
+# Global placeholder
+$targetCurveObjectArray = $null
+$checkInitialize = $false
 
 # TODO
 # Use namespace to arrange function
