@@ -38,15 +38,15 @@ $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 
 # Other default values
 $targetCurveJsonPath = ".\targetCurve.json"
-$dataSourceInnerfidelity = "innerfidelity"
-$dataSourceHeadphonecom = "headphonecom"
-$dataSourceRtings = "rtings"
+# $dataSourceInnerfidelity = "innerfidelity"
+# $dataSourceHeadphonecom = "headphonecom"
+# $dataSourceRtings = "rtings"
 $displayNamePrefix = "_simulate_"
 $universalHeadphoneType = "None"
-$calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
-$calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
-$calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
-$calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
+# $calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
+# $calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
+# $calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
+# $calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
 $venvDetectPath = "$autoEqInstallPath\venv"
 
 
