@@ -62,6 +62,38 @@ $checkInitialize = $false
 
 # TODO
 # Use namespace to arrange function
+
+# Check config file
+function Initialize {
+    # Read all files
+
+    # Try to confirm code library
+    Get-Content $libCtspw | Out-Null
+    Get-Content $libSimpleCatch | Out-Null
+
+    # Load config file
+    $targetCurveObjectArray = Get-Content $configPath | ConvertFrom-Json
+
+    foreach($configEntry in $targetCurveObjectArray){
+        if($configEntry.CompensationFile -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.HeadphoneType -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.ResultDisplayName -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.Behavior -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+    }
+
+    # Confirm initialize success in the very end
+    #    if there is no exception
+    $script:checkInitialize = $true
+}
+
 # Preprocess script running environment
 function EnvironmentSetup {
     # If venv folder doesn't exist(first run)
@@ -136,8 +168,7 @@ function AutoEq_ScriptHeader {
 
 # Code about fill argument to frequency_response.py
 function AutoEq_ScriptBody {
-    # Read target curve config file
-    $targetCurveObjectArray = Get-Content $targetCurveJsonPath | ConvertFrom-Json
+    
 
     # Loop through the array and export single object
     foreach ($targetCurveObject in $targetCurveObjectArray) {
