@@ -135,6 +135,10 @@ function AutoEq_ScriptBody {
         # Create a bool to check headphone type
         $checkHeadphoneType = $false
 
+        # Try not to apply curve to wrong headphone type
+        # For example, DO NOT apply in ear curve to on ear headphones
+        # As a "JUST DO IT" method, fill $universalHeadphoneType to targetCurve.json
+           # to ignore headphone type.
         if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
             $checkHeadphoneType = $true
         }
@@ -147,6 +151,13 @@ function AutoEq_ScriptBody {
         $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
 
         if ($checkHeadphoneType){
+            #TODO
+
+            # Regenerate required target result by using our own argument
+
+            # Confirm this is a simulate other headphone behavior or just use compensation file
+
+            # Generate different command by condition
         }
 
 
