@@ -222,11 +222,12 @@ function AutoEq_ScriptBody {
                     # If mimesis target matched with this config entry
                     if ($compensationFile -like "*$regenInputPathContain*"){
                         # Export regenerate purpose input folder
-                        $regenInputFolder = Split-Path $compensationFile
+                        $regenInputFolderPath = Split-Path $compensationFile
+                        $regenInputFolderName = Split-Path $compensationFile | Split-Path -Leaf
 
                         # Export regenerate purpose save path
-                        $regenerateDisplayName = $regenerateObject.DisplayName
-                        $regenSavePath = "$regenInputFolder\$displayNameRegenerate\$regenerateDisplayName"
+                        # $regenerateDisplayName = $regenerateObject.DisplayName
+                        $regenSavePath = "$autoEqInstallPath\$displayNameRegenerate\$regenInputFolderName"
 
                         # Export regenerate purpose compensation file
                         $regenCompensationFile = $regenerateObject.CompensationFile
@@ -252,8 +253,8 @@ function AutoEq_ScriptBody {
                         }
                         
                         # Generate regenerated csv path
-                        $regenCsvPath = "$regenSavePath\$regenerateDisplayName.csv"
-
+                        $regenCsvPath = "$regenSavePath\$regenInputFolderName.csv"
+                        
                         # Finally
                         # jaakkopasanen: "Something like this"
                         WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
