@@ -53,6 +53,7 @@ $universalHeadphoneType = "None"
 # $calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
 # $calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
 $venvDetectPath = "$autoEqInstallPath\venv"
+$bassBoostZeroValue = "0.0"
 
 $errMsg = "ERR:"
 $errMsgEmptyValueInConfig = "$errMsg Empty value in config file."
