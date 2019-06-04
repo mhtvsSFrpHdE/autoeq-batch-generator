@@ -39,12 +39,14 @@ $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 # Other default values
 $libCtspw = ".\cstpw.ps1"
 $libSimpleCatch = ".\simplecatch.ps1"
-$configPath = ".\targetCurve.json"
+$configPathTargetCurve = ".\targetCurve.json"
+$configPathRegenerate = ".\regenerate.json"
 
 # $dataSourceInnerfidelity = "innerfidelity"
 # $dataSourceHeadphonecom = "headphonecom"
 # $dataSourceRtings = "rtings"
 $displayNamePrefix = "_simulate_"
+$displayNameRegenerate = "regenerate"
 $universalHeadphoneType = "None"
 # $calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
 # $calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
@@ -55,9 +57,14 @@ $venvDetectPath = "$autoEqInstallPath\venv"
 $errMsg = "ERR:"
 $errMsgEmptyValueInConfig = "$errMsg Empty value in config file."
 $errMsgFailedToInitialize = "$errMsg Failed to initialize."
+$errMsgUnknownBehavior = "$errMsg Unknown behavior in regenerate config"
+
+$behaviorStandardization = "Standardization"
+$behaviorMimesis = "Mimesis"
 
 # Global placeholder
 $targetCurveObjectArray = $null
+$regenerateObjectArray = $null
 $checkInitialize = $false
 
 # TODO
