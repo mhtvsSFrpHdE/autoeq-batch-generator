@@ -237,20 +237,32 @@ function AutoEq_ScriptBody {
                         $regenBassBoost = $regenerateObject.BassBoost
                         $regenIemBassBoost = $regenerateObject.IemBassBoost
 
-                        # The max gain value is set by this script at running time
-                        WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolder`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        # A test shows --bass_boost and --iem_bass_boost can't be given together
+                        # So if one of them equal to zero, it will be disabled.
                         WriteCmdScript "REM Mimesis"
+                        if ($regenIemBassBoost -eq $bassBoostZeroValue){
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        }
+                        else{
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        }
                         
                         # Then we can use the regenerated result for real operaton
                         # We still required to find our headphone's datasource for the argument...
                         # TODO optimize this nested loop
                         #   Put this loop in the initialize method?
                         #   Anyway, when I want to use this value, it must be already
+
+                        # Export values that fill to real headphone
                         $compensationFileForRealHeadphone = $null
+                        $bassBoostForRealHeadphone = $null
+                        $iemBassBoostForRealHeadphone = $null
                         foreach ($regenerateObjectForRealHeadphone in $regenerateObjectArray) {
                             $regenInputPathContainForReadHeadphone = $regenerateObjectForRealHeadphone.InputPathContain
-                            if($inputDir -like "*$regenInputPathContainForReadHeadphone*"){
+                            if($inputFolder -like "*$regenInputPathContainForReadHeadphone*"){
                                 $compensationFileForRealHeadphone = $regenerateObjectForRealHeadphone.CompensationFile
+                                $bassBoostForRealHeadphone = $regenerateObjectForRealHeadphone.BassBoost
+                                $iemBassBoostForRealHeadphone = $regenerateObjectForRealHeadphone.IemBassBoost
                             }
                         }
                         
@@ -259,7 +271,12 @@ function AutoEq_ScriptBody {
                         
                         # Finally
                         # jaakkopasanen: "Something like this"
-                        WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        if($iemBassBoostForRealHeadphone -eq $bassBoostZeroValue){
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForRealHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        }
+                        else{
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForRealHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        }
                     }
                 }
             }
