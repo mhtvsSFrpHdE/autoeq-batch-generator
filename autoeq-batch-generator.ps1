@@ -39,19 +39,14 @@ $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 # Other default values
 $libCtspw = ".\cstpw.ps1"
 $libSimpleCatch = ".\simplecatch.ps1"
+
 $configPathTargetCurve = ".\targetCurve.json"
 $configPathRegenerate = ".\regenerate.json"
 
-# $dataSourceInnerfidelity = "innerfidelity"
-# $dataSourceHeadphonecom = "headphonecom"
-# $dataSourceRtings = "rtings"
 $displayNamePrefix = "_simulate_"
 $displayNameRegenerate = "regenerate"
+
 $universalHeadphoneType = "None"
-# $calibrationFileHeadphonecomToInnerfidelity = "calibration\headphonecom_to_innerfidelity.csv"
-# $calibrationFileInnerfidelityToHeadphonecom = "calibration\innerfidelity_to_headphonecom.csv"
-# $calibrationFileInnerfidelityToRtings = "calibration\innerfidelity_to_rtings.csv"
-# $calibrationFileRtingsToInnerfidelity = "calibration\rtings_to_innerfidelity.csv"
 $venvDetectPath = "$autoEqInstallPath\venv"
 $bassBoostZeroValue = "0.0"
 
@@ -286,43 +281,6 @@ function AutoEq_ScriptBody {
                 exit
             }
         }
-
-        # $useCalibrationFile = $false
-
-        # # Assign by if statement later
-        # $calibrationFile = ""
-
-        # # If headphone data come from different data souce
-        # if ( !($dataSource -eq $targetCurveObject.DataSource) ){
-        #     $useCalibrationFile = $true
-
-        #     # Set file path when trying to use calibration file
-        #     if ( ($dataSource -eq $dataSourceHeadphonecom) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-        #         $calibrationFile = $calibrationFileHeadphonecomToInnerfidelity
-        #     }
-        #     elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceHeadphonecom) ){
-        #         $calibrationFile = $calibrationFileInnerfidelityToHeadphonecom
-        #     }
-        #     elseif ( ($dataSource -eq $dataSourceInnerfidelity) -and ($targetCurveObject.DataSource -eq $dataSourceRtings) ){
-        #         $calibrationFile = $calibrationFileInnerfidelityToRtings
-        #     }
-        #     elseif ( ($dataSource -eq $dataSourceRtings) -and ($targetCurveObject.DataSource -eq $dataSourceInnerfidelity) ){
-        #         $calibrationFile = $calibrationFileRtingsToInnerfidelity
-        #     }
-        #     else{
-        #         # No calibration available, skip use calibration file
-        #         $useCalibrationFile = $false
-        #     }
-        # }
-
-        # if ($checkHeadphoneType){
-        #     if ($useCalibrationFile){
-        #         WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --calibration=`"$calibrationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-        #     }
-        #     else{
-        #         WriteCmdScript "python .\frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-        #     }
-        # }
     }
 }
 
