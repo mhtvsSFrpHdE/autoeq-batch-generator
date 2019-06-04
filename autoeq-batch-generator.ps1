@@ -79,7 +79,8 @@ function Initialize {
     Get-Content $libSimpleCatch | Out-Null
 
     # Load config file
-    $targetCurveObjectArray = Get-Content $configPath | ConvertFrom-Json
+    $script:targetCurveObjectArray = Get-Content $configPathTargetCurve | ConvertFrom-Json
+    $script:regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
 
     foreach($configEntry in $targetCurveObjectArray){
         if($configEntry.CompensationFile -eq $null){
