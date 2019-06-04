@@ -205,6 +205,7 @@ function AutoEq_ScriptBody {
 
             # When Standardization a headphone by using basic command argument
             if ($targetCurveObject.Behavior -eq $behaviorStandardization){
+                WriteCmdScript "REM Standardization"
                 WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
@@ -238,6 +239,7 @@ function AutoEq_ScriptBody {
 
                         # The max gain value is set by this script at running time
                         WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolder`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        WriteCmdScript "REM Mimesis"
                         
                         # Then we can use the regenerated result for real operaton
                         # We still required to find our headphone's datasource for the argument...
