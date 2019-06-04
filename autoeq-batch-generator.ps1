@@ -189,23 +189,82 @@ function AutoEq_ScriptBody {
             $checkHeadphoneType = $true
         }
 
-        # Update compensationFile
-        $compensationFile = $targetCurveObject.CompensationFile
-
-        # Update result save path by using result display name
-        $resultDisplayName = $targetCurveObject.ResultDisplayName
-        $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
-
+        # Use this bool for further action
+        # DO NOTHING if the value is false (if not pass headphone type check)
         if ($checkHeadphoneType){
-            #TODO
+            # Export compensationFile
+            $compensationFile = $targetCurveObject.CompensationFile
 
-            # Regenerate required target result by using our own argument
+            # Export result save path by using result display name
+            $resultDisplayName = $targetCurveObject.ResultDisplayName
+            $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
 
-            # Confirm this is a simulate other headphone behavior or just use compensation file
-
+            # Confirm this is a mimesis other headphone behavior or just use compensation file
             # Generate different command by condition
-        }
 
+            # When Standardization a headphone by using basic command argument
+            if ($targetCurveObject.Behavior -eq $behaviorStandardization){
+                WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+            }
+            # When mimesis a headphone to another headphone
+            # The logic is more complex a little bit
+            elseif($targetCurveObject.Behavior -eq $behaviorMimesis){
+                # Regenerate required "mimesis target" result by using our own argument
+                # The mainly regenerate reason is release max_gain limit
+
+                # We need to know the "mimesis target" default result belong to which data source
+                # Scan config file
+                foreach ($regenerateObject in $regenerateObjectArray){
+                    # Export data source path from config
+                    $regenInputPathContain = $regenerateObject.InputPathContain
+                    
+                    # If mimesis target matched with this config entry
+                    if ($compensationFile -like "*$regenInputPathContain*"){
+                        # Export regenerate purpose input folder
+                        $regenInputFolder = Split-Path $compensationFile
+
+                        # Export regenerate purpose save path
+                        $regenerateDisplayName = $regenerateObject.DisplayName
+                        $regenSavePath = "$regenInputFolder\$displayNameRegenerate\$regenerateDisplayName"
+
+                        # Export regenerate purpose compensation file
+                        $regenCompensationFile = $regenerateObject.CompensationFile
+
+                        # Export other default values
+                        $regenBassBoost = $regenerateObject.BassBoost
+                        $regenIemBassBoost = $regenerateObject.IemBassBoost
+
+                        # The max gain value is set by this script at running time
+                        WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolder`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        
+                        # Then we can use the regenerated result for real operaton
+                        # We still required to find our headphone's datasource for the argument...
+                        # TODO optimize this nested loop
+                        #   Put this loop in the initialize method?
+                        #   Anyway, when I want to use this value, it must be already
+                        $compensationFileForRealHeadphone = $null
+                        foreach ($regenerateObjectForRealHeadphone in $regenerateObjectArray) {
+                            $regenInputPathContainForReadHeadphone = $regenerateObjectForRealHeadphone.InputPathContain
+                            if($inputDir -like "*$regenInputPathContainForReadHeadphone*"){
+                                $compensationFileForRealHeadphone = $regenerateObjectForRealHeadphone.CompensationFile
+                            }
+                        }
+                        
+                        # Generate regenerated csv path
+                        $regenCsvPath = "$regenSavePath\$regenerateDisplayName.csv"
+
+                        # Finally
+                        # jaakkopasanen: "Something like this"
+                        WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$regenBassBoost --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                    }
+                }
+            }
+            # Opps, there is a unknown behavior in the config file
+            else{
+                Write-Error $errMsgUnknownBehavior
+                exit
+            }
+        }
 
         # $useCalibrationFile = $false
 
