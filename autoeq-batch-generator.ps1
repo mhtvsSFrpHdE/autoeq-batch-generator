@@ -9,7 +9,7 @@ $outputFolder = "myresults\m50x"
 
 # Headphone type, skip generate if curve type mismatch.
 # Available option:
-# "OverEar"
+# "OnEar"
 # "InEar"
 $headphoneType = "OnEar"
 
