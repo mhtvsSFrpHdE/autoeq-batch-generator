@@ -56,9 +56,6 @@ $targetCurveObjectArray = $null
 $regenerateObjectArray = $null
 $checkInitialize = $false
 
-# TODO
-# Use namespace to arrange function
-
 # Check config file
 function Environment_Initialize {
     # Read all files
