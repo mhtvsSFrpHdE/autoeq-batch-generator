@@ -22,8 +22,9 @@ Planned feature:
 **How to use**  
 Before execute, you need to download my dependencies library:  
 https://github.com/mhtvsSFrpHdE/cmd-script-the-powershell-way  
-#TODO Upload another dependencies 
-Paste the ```cstpw.ps1``` to the same folder as ```autoeq-batch-generator.ps1```.
+https://github.com/mhtvsSFrpHdE/simple-catch  
+
+Paste the ```cstpw.ps1``` and other "ps1" files to the same folder as ```autoeq-batch-generator.ps1```.
 
 Use your text editor to open ```autoeq-batch-generator.ps1``` but do not run it.  
 At the top of the file, you will see:
