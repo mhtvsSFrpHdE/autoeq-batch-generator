@@ -199,6 +199,19 @@ function AutoEqScript_Body {
             # When mimesis a headphone to another headphone
             # The logic is more complex a little bit
             elseif($targetCurveObject.Behavior -eq $behaviorMimesis){
+                # Export headphone values
+                $compensationFileForHeadphone = $null
+                $bassBoostForHeadphone = $null
+                $iemBassBoostForHeadphone = $null
+                foreach ($regenerateObjectForHeadphone in $regenerateObjectArray) {
+                    $regenInputPathContainForHeadphone = $regenerateObjectForHeadphone.InputPathContain
+                    if($inputFolder -like "*$regenInputPathContainForHeadphone*"){
+                        $compensationFileForHeadphone = $regenerateObjectForHeadphone.CompensationFile
+                        $bassBoostForHeadphone = $regenerateObjectForHeadphone.BassBoost
+                        $iemBassBoostForHeadphone = $regenerateObjectForHeadphone.IemBassBoost
+                    }
+                }
+
                 # Regenerate required "mimesis target" result by using our own argument
                 # The mainly regenerate reason is release max_gain limit
 
@@ -235,25 +248,7 @@ function AutoEqScript_Body {
                             WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         
-                        # Then we can use the regenerated result for real operaton
-                        # We still required to find our headphone's datasource for the argument...
-                        # TODO optimize this nested loop
-                        #   Put this loop in the initialize method?
-                        #   Anyway, when I want to use this value, it must be already
-
-                        # Export values that fill to real headphone
-                        $compensationFileForRealHeadphone = $null
-                        $bassBoostForRealHeadphone = $null
-                        $iemBassBoostForRealHeadphone = $null
-                        foreach ($regenerateObjectForRealHeadphone in $regenerateObjectArray) {
-                            $regenInputPathContainForReadHeadphone = $regenerateObjectForRealHeadphone.InputPathContain
-                            if($inputFolder -like "*$regenInputPathContainForReadHeadphone*"){
-                                $compensationFileForRealHeadphone = $regenerateObjectForRealHeadphone.CompensationFile
-                                $bassBoostForRealHeadphone = $regenerateObjectForRealHeadphone.BassBoost
-                                $iemBassBoostForRealHeadphone = $regenerateObjectForRealHeadphone.IemBassBoost
-                            }
-                        }
-                        
+                        # Then we can use the regenerated result for real operaton             
                         # Generate regenerated csv path
                         $regenCsvPath = "$regenSavePath\$regenInputFolderName.csv"
                         
