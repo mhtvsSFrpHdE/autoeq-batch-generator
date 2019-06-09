@@ -60,7 +60,7 @@ $checkInitialize = $false
 # Use namespace to arrange function
 
 # Check config file
-function Initialize {
+function Environment_Initialize {
     # Read all files
 
     # Try to confirm code library
@@ -92,7 +92,7 @@ function Initialize {
 }
 
 # Preprocess script running environment
-function EnvironmentSetup {
+function Environment_Setup {
     # If venv folder doesn't exist(first run)
     # or just skip environment setup
     if (! (Test-Path $venvDetectPath) ) {
@@ -153,7 +153,7 @@ function EnvironmentSetup {
 }
 
 # Config execute environment
-function AutoEq_ScriptHeader {
+function AutoEqScript_Header {
     CreateCmdScript
 
     # So Windows XP doesn't really have a UTF-8 code page, will not work on that.
@@ -164,7 +164,7 @@ function AutoEq_ScriptHeader {
 }
 
 # Code about fill argument to frequency_response.py
-function AutoEq_ScriptBody {
+function AutoEqScript_Body {
     # Loop through the array and export single object
     foreach ($targetCurveObject in $targetCurveObjectArray) {
         # Try not to apply curve to wrong headphone type
@@ -278,24 +278,24 @@ function AutoEq_ScriptBody {
 }
 
 # Write pause and exit at the end of cmd script
-function AutoEq_ScriptFoot {
+function AutoEqScript_Foot {
     WriteCmdScript "pause"
     WriteCmdScript "exit"
 }
 
 # Call functions
-Initialize
+Environment_Initialize
 if($checkInitialize){
     . $libCtspw
     . $libSimpleCatch
     try{
         # Prepare environment
-        EnvironmentSetup
+        Environment_Setup
 
         # Create script
-        AutoEq_ScriptHeader
-        AutoEq_ScriptBody
-        AutoEq_ScriptFoot
+        AutoEqScript_Header
+        AutoEqScript_Body
+        AutoEqScript_Foot
 
         # Run AutoEq
         RunCmdScript
