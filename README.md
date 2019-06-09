@@ -15,9 +15,10 @@ The powershell script will read the predefined config file, and do something aut
 - Add output folder suffix for different curve
 - Control max_gain, treble_max_gain value
 - Pause after command execute
+- Multiple headphone for multiple target curve at once
 
 Planned feature:
-- Update command generator core code to latest AutoEq API 
+- None
 
 **How to use**  
 Before execute, you need to download my dependencies library:  
@@ -29,27 +30,19 @@ Paste the ```cstpw.ps1``` and other "ps1" files to the same folder as ```autoeq-
 Use your text editor to open ```autoeq-batch-generator.ps1``` but do not run it.  
 At the top of the file, you will see:
 ```
-# Preset argument
 # Both full path and relative path will work
 # The reason to use full path at here is we often copy path from Everything search software
 # This headphone model is just for demo purpose.
-$inputFolder = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50x"
+$inputFolder_default = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50x"
 
 # The reason to use relative path at here is human read friendly
-$outputFolder = "myresults\m50x"
-
-# Set data source like "innerfidelity".
-# Common option:
-# "headphonecom"
-# "innerfidelity"
-# "rtings"
-$dataSource = "innerfidelity"
+$outputFolder_default = "myresults\m50x"
 
 # Headphone type, skip generate if curve type mismatch.
 # Available option:
-# "OverEar"
+# "OnEar"
 # "InEar"
-$headphoneType = "OverEar"
+$headphoneType_default = "OnEar"
 
 # AutoEq install path
 $autoEqInstallPath = "C:\AutoEq-master"
@@ -57,7 +50,6 @@ $autoEqInstallPath = "C:\AutoEq-master"
 # Release the gain value limit
 $maxGain = "24.0"
 $trebleMaxGain = $maxGain
-
 ...
 ```
 The importance of each option is decreasing from top to bottom.  
@@ -83,6 +75,15 @@ in this file you will see:
 It's default content is just for demo purpose,  
 the data stored as "object in array",  
 so carefully edit the content or add more repeat.  
+
+If you want to use multi headphone mode,  
+turn this to true,
+```
+# Preset argument
+# Set to true if you want to use for multiple headphones by launch once
+$multiHeadphoneMode = $false
+```
+then go to ```multiHeadphone.json``` for the arguments.  
 
 Once all argument were defined,  
 run the ```autoeq-batch-generator.ps1```, your batch should start working.
