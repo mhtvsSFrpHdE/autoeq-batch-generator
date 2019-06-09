@@ -35,6 +35,7 @@ $libSimpleCatch = ".\simplecatch.ps1"
 
 $configPathTargetCurve = ".\targetCurve.json"
 $configPathRegenerate = ".\regenerate.json"
+$configPathMultiHeadphone = ".\multiHeadphone.json"
 
 $displayNamePrefix = "_simulate_"
 $displayNameRegenerate = "regenerate"
@@ -54,6 +55,7 @@ $behaviorMimesis = "Mimesis"
 # Global placeholder
 $targetCurveObjectArray = $null
 $regenerateObjectArray = $null
+$multiHeadphoneObjectArray = $null
 $checkInitialize = $false
 
 # Check config file
@@ -67,7 +69,11 @@ function Environment_Initialize {
     # Load config file
     $script:targetCurveObjectArray = Get-Content $configPathTargetCurve | ConvertFrom-Json
     $script:regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
+    $script:multiHeadphoneObjectArray = Get-Content $configPathMultiHeadphone | ConvertFrom-Json
 
+    #TODO
+    # This is a extremely simple config checker...
+    # Extend it
     foreach($configEntry in $targetCurveObjectArray){
         if($configEntry.CompensationFile -eq $null){
             throw $errMsgEmptyValueInConfig
@@ -79,6 +85,39 @@ function Environment_Initialize {
             throw $errMsgEmptyValueInConfig
         }
         if($configEntry.Behavior -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+    }
+
+    foreach ($configEntry in $regenerateObjectArray) {
+        if($configEntry.Comment -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.DisplayName -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.InputPathContain -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.CompensationFile -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.BassBoost -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.IemBassBoost -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+    }
+
+    foreach ($configEntry in $multiHeadphoneObjectArray) {
+        if($configEntry.InputFolder -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.OutputFolder -eq $null){
+            throw $errMsgEmptyValueInConfig
+        }
+        if($configEntry.HeadphoneType -eq $null){
             throw $errMsgEmptyValueInConfig
         }
     }
