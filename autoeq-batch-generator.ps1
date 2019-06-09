@@ -182,7 +182,7 @@ function AutoEqScript_Body {
         # DO NOTHING if the value is false (if not pass headphone type check)
         if ($checkHeadphoneType){
             # Export compensationFile
-            $compensationFile = $targetCurveObject.CompensationFile
+            $compensationFileForTarget = $targetCurveObject.CompensationFile
 
             # Export result save path by using result display name
             $resultDisplayName = $targetCurveObject.ResultDisplayName
@@ -194,7 +194,7 @@ function AutoEqScript_Body {
             # When Standardization a headphone by using basic command argument
             if ($targetCurveObject.Behavior -eq $behaviorStandardization){
                 WriteCmdScript "REM Standardization"
-                WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFile`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
             # The logic is more complex a little bit
@@ -217,26 +217,26 @@ function AutoEqScript_Body {
 
                 # We need to know the "mimesis target" default result belong to which data source
                 # Scan config file
-                foreach ($regenerateObject in $regenerateObjectArray){
+                foreach ($regenerateObjectForTarget in $regenerateObjectArray){
                     # Export data source path from config
-                    $regenInputPathContain = $regenerateObject.InputPathContain
+                    $regenInputPathContainForTarget = $regenerateObjectForTarget.InputPathContain
                     
                     # If mimesis target matched with this config entry
-                    if ($compensationFile -like "*$regenInputPathContain*"){
+                    if ($compensationFileForTarget -like "*$regenInputPathContainForTarget*"){
                         # Export regenerate purpose input folder
-                        $regenInputFolderPath = Split-Path $compensationFile
-                        $regenInputFolderName = Split-Path $compensationFile | Split-Path -Leaf
+                        $regenInputFolderPath = Split-Path $compensationFileForTarget
+                        $regenInputFolderName = Split-Path $compensationFileForTarget | Split-Path -Leaf
 
                         # Export regenerate purpose save path
-                        # $regenerateDisplayName = $regenerateObject.DisplayName
+                        # $regenerateDisplayName = $regenerateObjectForTarget.DisplayName
                         $regenSavePath = "$autoEqInstallPath\$displayNameRegenerate\$regenInputFolderName"
 
                         # Export regenerate purpose compensation file
-                        $regenCompensationFile = $regenerateObject.CompensationFile
+                        $regenCompensationFile = $regenerateObjectForTarget.CompensationFile
 
                         # Export other default values
-                        $regenBassBoost = $regenerateObject.BassBoost
-                        $regenIemBassBoost = $regenerateObject.IemBassBoost
+                        $regenBassBoost = $regenerateObjectForTarget.BassBoost
+                        $regenIemBassBoost = $regenerateObjectForTarget.IemBassBoost
 
                         # A test shows --bass_boost and --iem_bass_boost can't be given together
                         # So if one of them equal to zero, it will be disabled.
@@ -254,11 +254,11 @@ function AutoEqScript_Body {
                         
                         # Finally
                         # jaakkopasanen: "Something like this"
-                        if($iemBassBoostForRealHeadphone -eq $bassBoostZeroValue){
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForRealHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                        if($iemBassBoostForHeadphone -eq $bassBoostZeroValue){
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         else{
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForRealHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForRealHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                     }
                 }
