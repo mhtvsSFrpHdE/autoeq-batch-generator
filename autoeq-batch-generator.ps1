@@ -7,13 +7,6 @@ $inputFolder = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50
 # The reason to use relative path at here is human read friendly
 $outputFolder = "myresults\m50x"
 
-# Set data source like "innerfidelity".
-# Common option:
-# "headphonecom"
-# "innerfidelity"
-# "rtings"
-$dataSource = "innerfidelity"
-
 # Headphone type, skip generate if curve type mismatch.
 # Available option:
 # "OverEar"
