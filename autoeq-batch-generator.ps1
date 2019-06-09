@@ -1,17 +1,20 @@
 ﻿# Preset argument
+# Set to true if you want to use for multiple headphones by launch once
+$multiHeadphoneMode = $false
+
 # Both full path and relative path will work
 # The reason to use full path at here is we often copy path from Everything search software
 # This headphone model is just for demo purpose.
-$inputFolder = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50x"
+$inputFolder_default = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50x"
 
 # The reason to use relative path at here is human read friendly
-$outputFolder = "myresults\m50x"
+$outputFolder_default = "myresults\m50x"
 
 # Headphone type, skip generate if curve type mismatch.
 # Available option:
 # "OnEar"
 # "InEar"
-$headphoneType = "OnEar"
+$headphoneType_default = "OnEar"
 
 # AutoEq install path
 $autoEqInstallPath = "C:\AutoEq-master"
@@ -200,7 +203,15 @@ function AutoEqScript_Header {
 }
 
 # Code about fill argument to frequency_response.py
-function AutoEqScript_Body {
+# This function designed for one at a time
+# There is a wrapper for multiple at the elsewhere
+function AutoEqScript_CoreWorker {
+    param (
+        $InputFolder,
+        $OutputFolder,
+        $HeadphoneType
+    )
+
     # Loop through the array and export single object
     foreach ($targetCurveObject in $targetCurveObjectArray) {
         # Try not to apply curve to wrong headphone type
@@ -210,7 +221,7 @@ function AutoEqScript_Body {
 
         # Create a bool to check headphone type
         $checkHeadphoneType = $false
-        if ( ($headphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
+        if ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
             $checkHeadphoneType = $true
         }
 
@@ -222,7 +233,7 @@ function AutoEqScript_Body {
 
             # Export result save path by using result display name
             $resultDisplayName = $targetCurveObject.ResultDisplayName
-            $savePath = $outputFolder + $displayNamePrefix + $resultDisplayName
+            $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
 
             # Confirm this is a mimesis other headphone behavior or just use compensation file
             # Generate different command by condition
@@ -230,7 +241,7 @@ function AutoEqScript_Body {
             # When Standardization a headphone by using basic command argument
             if ($targetCurveObject.Behavior -eq $behaviorStandardization){
                 WriteCmdScript "REM Standardization"
-                WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
             # The logic is more complex a little bit
@@ -241,7 +252,7 @@ function AutoEqScript_Body {
                 $iemBassBoostForHeadphone = $null
                 foreach ($regenerateObjectForHeadphone in $regenerateObjectArray) {
                     $regenInputPathContainForHeadphone = $regenerateObjectForHeadphone.InputPathContain
-                    if($inputFolder -like "*$regenInputPathContainForHeadphone*"){
+                    if($InputFolder -like "*$regenInputPathContainForHeadphone*"){
                         $compensationFileForHeadphone = $regenerateObjectForHeadphone.CompensationFile
                         $bassBoostForHeadphone = $regenerateObjectForHeadphone.BassBoost
                         $iemBassBoostForHeadphone = $regenerateObjectForHeadphone.IemBassBoost
@@ -291,10 +302,10 @@ function AutoEqScript_Body {
                         # Finally
                         # jaakkopasanen: "Something like this"
                         if($iemBassBoostForHeadphone -eq $bassBoostZeroValue){
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         else{
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$inputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                     }
                 }
@@ -308,15 +319,35 @@ function AutoEqScript_Body {
     }
 }
 
+# Wrapper of AutoEqScript_CoreWorker
+# Enable to use multi headphone mode
+function AutoEqScript_Body {
+    if ($multiHeadphoneMode){
+        foreach ($headphoneObject in $multiHeadphoneObjectArray) {
+            AutoEqScript_CoreWorker -InputFolder $headphoneObject.InputFolder -OutputFolder $headphoneObject.OutputFolder -HeadphoneType $headphoneObject.HeadphoneType
+        }
+    }
+    else{
+        AutoEqScript_CoreWorker -InputFolder $inputFolder_default -OutputFolder $outputFolder_default -HeadphoneType $headphoneType_default
+    }
+}
+
 # Write pause and exit at the end of cmd script
 function AutoEqScript_Foot {
     WriteCmdScript "pause"
     WriteCmdScript "exit"
 }
 
-# Call functions
+
+
+
+
+# Main
+# Initialize code
 Environment_Initialize
+# Check initialize result
 if($checkInitialize){
+    # Load library
     . $libCtspw
     . $libSimpleCatch
     try{
