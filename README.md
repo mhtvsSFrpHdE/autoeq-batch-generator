@@ -3,6 +3,8 @@
 See https://github.com/mhtvsSFrpHdE/contact-me  
 
 **What is this**  
+The AutoEq project:  
+https://github.com/jaakkopasanen/AutoEq  
 In normally you need to type in the AutoEq launch command and argument in order to use it.  
 When you want to generate five eq settings for same headphone, things not that handy.  
 The powershell script will read the predefined config file, and do something automated.
