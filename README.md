@@ -21,6 +21,7 @@ The powershell script will read the predefined config file, and do something aut
 
 Planned feature:
 - Custom pip argument, for example to choose download mirror.
+- Add a switch to main script to allow dynamic multiheadphone mode.
 
 **How to use**  
 Before execute, you need to download my dependencies library:  
