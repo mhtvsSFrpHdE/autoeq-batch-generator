@@ -20,7 +20,7 @@ The powershell script will read the predefined config file, and do something aut
 - Multiple headphone for multiple target curve at once
 
 Planned feature:
-- None
+- Custom pip argument, for example to choose download mirror.
 
 **How to use**  
 Before execute, you need to download my dependencies library:  
