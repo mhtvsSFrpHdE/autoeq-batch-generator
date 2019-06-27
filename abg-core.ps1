@@ -27,33 +27,40 @@ $trebleMaxGain = $maxGain
 
 
 
+# Other default values
+
+# External files
+
 # Set cmd script file location
 $CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 
-
-
-# Other default values
+# Library
 $libCtspw = ".\cstpw.ps1"
 $libSimpleCatch = ".\simplecatch.ps1"
 
+# Config
 $configPathTargetCurve = ".\targetCurve.json"
 $configPathRegenerate = ".\regenerate.json"
 $configPathMultiHeadphone = ".\multiHeadphone.json"
+
+# Magic value
+$allSoftwareFileArray = $libCtspw, $libSimpleCatch, $configPathTargetCurve, $configPathRegenerate, $configPathMultiHeadphone
+
+$bassBoostZeroValue = "0.0"
+$behaviorStandardization = "Standardization"
+$behaviorMimesis = "Mimesis"
 
 $displayNamePrefix = "_simulate_"
 $displayNameRegenerate = "regenerate"
 
 $universalHeadphoneType = "None"
+
 $venvDetectPath = "$autoEqInstallPath\venv"
-$bassBoostZeroValue = "0.0"
 
-$errMsg = "ERR:"
-$errMsgEmptyValueInConfig = "$errMsg Empty value in config file."
-$errMsgFailedToInitialize = "$errMsg Failed to initialize."
-$errMsgUnknownBehavior = "$errMsg Unknown behavior in regenerate config"
+# Message
+. ".\abg-message.ps1"
 
-$behaviorStandardization = "Standardization"
-$behaviorMimesis = "Mimesis"
+
 
 # Global variable
 $targetCurveObjectArray = $null
@@ -61,7 +68,7 @@ $regenerateObjectArray = $null
 $multiHeadphoneObjectArray = $null
 $checkInitialize = $false
 
-# Check config file
+# Environment initialize
 function Environment_Initialize {
     # Read all files
 
@@ -77,50 +84,50 @@ function Environment_Initialize {
     #TODO
     # This is a extremely simple config checker...
     # Extend it
-    foreach($configEntry in $targetCurveObjectArray){
-        if($configEntry.CompensationFile -eq $null){
+    foreach ($configEntry in $targetCurveObjectArray) {
+        if ($configEntry.CompensationFile -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.HeadphoneType -eq $null){
+        if ($configEntry.HeadphoneType -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.ResultDisplayName -eq $null){
+        if ($configEntry.ResultDisplayName -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.Behavior -eq $null){
+        if ($configEntry.Behavior -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
     }
 
     foreach ($configEntry in $regenerateObjectArray) {
-        if($configEntry.Comment -eq $null){
+        if ($configEntry.Comment -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.DisplayName -eq $null){
+        if ($configEntry.DisplayName -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.InputPathContain -eq $null){
+        if ($configEntry.InputPathContain -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.CompensationFile -eq $null){
+        if ($configEntry.CompensationFile -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.BassBoost -eq $null){
+        if ($configEntry.BassBoost -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.IemBassBoost -eq $null){
+        if ($configEntry.IemBassBoost -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
     }
 
     foreach ($configEntry in $multiHeadphoneObjectArray) {
-        if($configEntry.InputFolder -eq $null){
+        if ($configEntry.InputFolder -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.OutputFolder -eq $null){
+        if ($configEntry.OutputFolder -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
-        if($configEntry.HeadphoneType -eq $null){
+        if ($configEntry.HeadphoneType -eq $null) {
             throw $errMsgEmptyValueInConfig
         }
     }
@@ -135,12 +142,14 @@ function Environment_Setup {
     # If venv folder doesn't exist(first run)
     # or just skip environment setup
     if (! (Test-Path $venvDetectPath) ) {
-        Write-Output "You don't have AutoEq environment requirement installed."
-        Write-Output "Confirm to start the install script."
+        Write-Host $usrMsgVenvNotFound
+        Write-Host $usrMsgVenvNotFound2
+        Write-Host $usrMsgBlankLine
         Pause
-        Write-Output ""
+        Write-Host $usrMsgBlankLine
 
         # Create the environment setup script
+        #TODO add custom pip option
         CreateCmdScript
         WriteCmdScript "chcp 65001"
         WriteCmdScript "cd /d `"$autoEqInstallPath`""
@@ -152,40 +161,41 @@ function Environment_Setup {
         WriteCmdScript "pause"
         WriteCmdScript "exit"
 
+        # This variable tell loop to do again or not.
+        # The "Retry" feature.
         $keepLoopMark = $false
         do {
             # Run environment setup script
             RunCmdScript -Wait
     
             # Ask user for the script execute result
-            Write-Output "Did the requirements installed successfully?"
-            Write-Output "Or there's error needs to be fix manually?"
-            Write-Output ""
-            Write-Output "Y, all success(run AutoEq)."
-            Write-Output "N, I do it manually(stop script)."
-            Write-Output "R, Anyway, just retry it for me."
-            Write-Output "Default is N."
-            Write-Output ""
+            Write-Host $usrMsgAskVenvStatus
+            Write-Host $usrMsgAskVenvStatus2
+            Write-Host $usrMsgBlankLine
+            Write-Host $usrMsgAskVenvStatusYes
+            Write-Host $usrMsgAskVenvStatusNo
+            Write-Host $usrMsgAskVenvStatusRetry
+            Write-Host $usrMsgAskVenvStatusDefault
+            Write-Host $usrMsgBlankLine
     
-            $ReadUserResult = 0
-            $ReadUser = Read-Host "Y/N/R" 
-            Write-Output ""
-            Switch ($ReadUser) 
-            { 
-                Y {$ReadUserResult = 1} 
-                N {$ReadUserResult = 2} 
-                R {$ReadUserResult = 3}
-                Default {$ReadUserResult = 2} 
+            $readUserResult = 0
+            $readUser = Read-Host "Y/N/R" 
+            Write-Host $usrMsgBlankLine
+            Switch ($readUser) { 
+                Y { $readUserResult = 1 } 
+                N { $readUserResult = 2 } 
+                R { $readUserResult = 3 }
+                Default { $readUserResult = 2 } 
             }
     
-            if ($ReadUserResult -eq 3){
+            if ($readUserResult -eq 3) {
                 $keepLoopMark = $true
             }
-            elseif ($ReadUserResult -eq 2) {
-                exit
+            elseif ($readUserResult -eq 1) {
+                $keepLoopMark = $false
             }
             else {
-                $keepLoopMark = $false
+                exit
             }
         } while ($keepLoopMark)
     }
@@ -217,17 +227,17 @@ function AutoEqScript_CoreWorker {
         # Try not to apply curve to wrong headphone type
         # For example, DO NOT apply in ear curve to on ear headphones
         # As a "JUST DO IT" method, fill $universalHeadphoneType to targetCurve.json
-           # to ignore headphone type check
+        # to ignore headphone type check
 
         # Create a bool to check headphone type
         $checkHeadphoneType = $false
-        if ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ){
+        if ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ) {
             $checkHeadphoneType = $true
         }
 
         # Use this bool for further action
         # DO NOTHING if the value is false (if not pass headphone type check)
-        if ($checkHeadphoneType){
+        if ($checkHeadphoneType) {
             # Export compensationFile
             $compensationFileForTarget = $targetCurveObject.CompensationFile
 
@@ -239,20 +249,20 @@ function AutoEqScript_CoreWorker {
             # Generate different command by condition
 
             # When Standardization a headphone by using basic command argument
-            if ($targetCurveObject.Behavior -eq $behaviorStandardization){
+            if ($targetCurveObject.Behavior -eq $behaviorStandardization) {
                 WriteCmdScript "REM Standardization"
                 WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
             # The logic is more complex a little bit
-            elseif($targetCurveObject.Behavior -eq $behaviorMimesis){
+            elseif ($targetCurveObject.Behavior -eq $behaviorMimesis) {
                 # Export headphone values
                 $compensationFileForHeadphone = $null
                 $bassBoostForHeadphone = $null
                 $iemBassBoostForHeadphone = $null
                 foreach ($regenerateObjectForHeadphone in $regenerateObjectArray) {
                     $regenInputPathContainForHeadphone = $regenerateObjectForHeadphone.InputPathContain
-                    if($InputFolder -like "*$regenInputPathContainForHeadphone*"){
+                    if ($InputFolder -like "*$regenInputPathContainForHeadphone*") {
                         $compensationFileForHeadphone = $regenerateObjectForHeadphone.CompensationFile
                         $bassBoostForHeadphone = $regenerateObjectForHeadphone.BassBoost
                         $iemBassBoostForHeadphone = $regenerateObjectForHeadphone.IemBassBoost
@@ -264,12 +274,12 @@ function AutoEqScript_CoreWorker {
 
                 # We need to know the "mimesis target" default result belong to which data source
                 # Scan config file
-                foreach ($regenerateObjectForTarget in $regenerateObjectArray){
+                foreach ($regenerateObjectForTarget in $regenerateObjectArray) {
                     # Export data source path from config
                     $regenInputPathContainForTarget = $regenerateObjectForTarget.InputPathContain
                     
                     # If mimesis target matched with this config entry
-                    if ($compensationFileForTarget -like "*$regenInputPathContainForTarget*"){
+                    if ($compensationFileForTarget -like "*$regenInputPathContainForTarget*") {
                         # Export regenerate purpose input folder
                         $regenInputFolderPath = Split-Path $compensationFileForTarget
                         $regenInputFolderName = Split-Path $compensationFileForTarget | Split-Path -Leaf
@@ -288,10 +298,10 @@ function AutoEqScript_CoreWorker {
                         # A test shows --bass_boost and --iem_bass_boost can't be given together
                         # So if one of them equal to zero, it will be disabled.
                         WriteCmdScript "REM Mimesis"
-                        if ($regenIemBassBoost -eq $bassBoostZeroValue){
+                        if ($regenIemBassBoost -eq $bassBoostZeroValue) {
                             WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
-                        else{
+                        else {
                             WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         
@@ -301,17 +311,17 @@ function AutoEqScript_CoreWorker {
                         
                         # Finally
                         # jaakkopasanen: "Something like this"
-                        if($iemBassBoostForHeadphone -eq $bassBoostZeroValue){
+                        if ($iemBassBoostForHeadphone -eq $bassBoostZeroValue) {
                             WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
-                        else{
+                        else {
                             WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                     }
                 }
             }
             # Opps, there is a unknown behavior in the config file
-            else{
+            else {
                 Write-Error $errMsgUnknownBehavior
                 exit
             }
@@ -322,12 +332,12 @@ function AutoEqScript_CoreWorker {
 # Wrapper of AutoEqScript_CoreWorker
 # Enable to use multi headphone mode
 function AutoEqScript_Body {
-    if ($multiHeadphoneMode){
+    if ($multiHeadphoneMode) {
         foreach ($headphoneObject in $multiHeadphoneObjectArray) {
             AutoEqScript_CoreWorker -InputFolder $headphoneObject.InputFolder -OutputFolder $headphoneObject.OutputFolder -HeadphoneType $headphoneObject.HeadphoneType
         }
     }
-    else{
+    else {
         AutoEqScript_CoreWorker -InputFolder $inputFolder_default -OutputFolder $outputFolder_default -HeadphoneType $headphoneType_default
     }
 }
@@ -346,11 +356,11 @@ function AutoEqScript_Foot {
 # Initialize code
 Environment_Initialize
 # Check initialize result
-if($checkInitialize){
+if ($checkInitialize) {
     # Load library
     . $libCtspw
     . $libSimpleCatch
-    try{
+    try {
         # Prepare environment
         Environment_Setup
 
@@ -362,12 +372,12 @@ if($checkInitialize){
         # Run AutoEq
         RunCmdScript
     }
-    catch{
+    catch {
         SimpleCatch $_
     }
 
 }
-else{
+else {
     Write-Error $errMsgFailedToInitialize
     exit 1
 }
