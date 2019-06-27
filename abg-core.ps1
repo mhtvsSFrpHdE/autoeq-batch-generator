@@ -43,15 +43,15 @@ function Environment_Setup {
         # Create the environment setup script
         #TODO add custom pip option
         CreateCmdScript
-        WriteCmdScript "chcp 65001"
-        WriteCmdScript "cd /d `"$autoEqInstallPath`""
-        WriteCmdScript "python -m pip install --upgrade pip"
-        WriteCmdScript "pip install " + $pipCustomArgument + "virtualenv"
-        WriteCmdScript "virtualenv venv -v"
-        WriteCmdScript "call venv\Scripts\activate.bat"
-        WriteCmdScript "pip install " + $pipCustomArgument + "-r requirements.txt"
-        WriteCmdScript "pause"
-        WriteCmdScript "exit"
+        Cstpw_WriteScript "chcp 65001"
+        Cstpw_WriteScript "cd /d `"$autoEqInstallPath`""
+        Cstpw_WriteScript "python -m pip install --upgrade pip"
+        Cstpw_WriteScript "pip install " + $pipCustomArgument + "virtualenv"
+        Cstpw_WriteScript "virtualenv venv -v"
+        Cstpw_WriteScript "call venv\Scripts\activate.bat"
+        Cstpw_WriteScript "pip install " + $pipCustomArgument + "-r requirements.txt"
+        Cstpw_WriteScript "pause"
+        Cstpw_WriteScript "exit"
 
         # This variable tell loop to do again or not.
         # The "Retry" feature.
@@ -95,13 +95,13 @@ function Environment_Setup {
 
 # Config execute environment
 function AutoEqScript_Header {
-    CreateCmdScript
+    Cstpw_CreateScript
 
     # So Windows XP doesn't really have a UTF-8 code page, will not work on that.
     # Use 65001 code page to cover the non-ANSI file name.
-    WriteCmdScript "chcp 65001"
-    WriteCmdScript "cd /d `"$autoEqInstallPath`""
-    WriteCmdScript "call venv\Scripts\activate.bat"
+    Cstpw_WriteScript "chcp 65001"
+    Cstpw_WriteScript "cd /d `"$autoEqInstallPath`""
+    Cstpw_WriteScript "call venv\Scripts\activate.bat"
 }
 
 # Code about fill argument to frequency_response.py
@@ -142,8 +142,8 @@ function AutoEqScript_CoreWorker {
 
             # When Standardization a headphone by using basic command argument
             if ($targetCurveObject.Behavior -eq $behaviorStandardization) {
-                WriteCmdScript "REM Standardization"
-                WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                Cstpw_WriteScript "REM Standardization"
+                Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
             # The logic is more complex a little bit
@@ -189,12 +189,12 @@ function AutoEqScript_CoreWorker {
 
                         # A test shows --bass_boost and --iem_bass_boost can't be given together
                         # So if one of them equal to zero, it will be disabled.
-                        WriteCmdScript "REM Mimesis"
+                        Cstpw_WriteScript "REM Mimesis"
                         if ($regenIemBassBoost -eq $bassBoostZeroValue) {
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         else {
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         
                         # Then we can use the regenerated result for real operaton             
@@ -204,10 +204,10 @@ function AutoEqScript_CoreWorker {
                         # Finally
                         # jaakkopasanen: "Something like this"
                         if ($iemBassBoostForHeadphone -eq $bassBoostZeroValue) {
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                         else {
-                            WriteCmdScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
                     }
                 }
@@ -236,8 +236,8 @@ function AutoEqScript_Body {
 
 # Write pause and exit at the end of cmd script
 function AutoEqScript_Foot {
-    WriteCmdScript "pause"
-    WriteCmdScript "exit"
+    Cstpw_WriteScript "pause"
+    Cstpw_WriteScript "exit"
 }
 
 
@@ -262,7 +262,7 @@ if ($checkInitialize) {
         AutoEqScript_Foot
 
         # Run AutoEq
-        RunCmdScript
+        Cstpw_RunScript
     }
     catch {
         SimpleCatch $_

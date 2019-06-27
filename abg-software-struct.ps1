@@ -1,6 +1,5 @@
 # Set cmd script file location
-#TODO Update library
-$CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
+$CSTPW_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 
 # Library
 $libCtspw = ".\cstpw.ps1"
