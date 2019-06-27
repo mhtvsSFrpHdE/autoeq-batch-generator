@@ -29,34 +29,8 @@ $trebleMaxGain = $maxGain
 
 # Other default values
 
-# External files
-
-# Set cmd script file location
-$CMD_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
-
-# Library
-$libCtspw = ".\cstpw.ps1"
-$libSimpleCatch = ".\simplecatch.ps1"
-
-# Config
-$configPathTargetCurve = ".\targetCurve.json"
-$configPathRegenerate = ".\regenerate.json"
-$configPathMultiHeadphone = ".\multiHeadphone.json"
-
-# Interact config(use ps1 as config)
-$interactConfigPathMessage = ".\abg-message.ps1"
-
 # Magic value
-$bassBoostZeroValue = "0.0"
-$behaviorStandardization = "Standardization"
-$behaviorMimesis = "Mimesis"
-
-$displayNamePrefix = "_simulate_"
-$displayNameRegenerate = "regenerate"
-
-$universalHeadphoneType = "None"
-
-$venvDetectPath = "$autoEqInstallPath\venv"
+. $interactConfigPathMagicValue
 
 # Message
 . $interactConfigPathMessage
@@ -71,12 +45,6 @@ $checkInitialize = $false
 
 # Environment initialize
 function Environment_Initialize {
-    # Read all files
-
-    # Try to confirm code library
-    Get-Content $libCtspw | Out-Null
-    Get-Content $libSimpleCatch | Out-Null
-
     # Load config file
     $script:targetCurveObjectArray = Get-Content $configPathTargetCurve | ConvertFrom-Json
     $script:regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
