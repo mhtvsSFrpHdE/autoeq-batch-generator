@@ -14,3 +14,4 @@ $configPathMultiHeadphone = ".\multiHeadphone.json"
 # Interact config(use ps1 as config)
 $interactConfigPathMessage = ".\abg-message.ps1"
 $interactConfigPathMagicValue = ".\abg-magic-value.ps1"
+$interactConfigPathUserConfig = ".\abg-user-config.ps1"
