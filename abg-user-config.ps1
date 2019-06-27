@@ -17,6 +17,18 @@ $outputFolder_default = "myresults\m50x"
 # "InEar"
 $headphoneType_default = "OnEar"
 
+# Pip download server
+# Specify you own pip options(experimental)
+#
+# This demo shows you want to use a download mirror located in China.
+# You must add a space character at the end of the variable.
+#   pip install -i https://pypi.tuna.tsinghua.edu.cn/simple virtualenv
+#   $pipCustomArgument = "-i https://pypi.tuna.tsinghua.edu.cn/simple "
+#
+# Leave it blank to use default options:
+# Notic that in this case there is no space character.
+#   $pipCustomArgument = ""
+$pipCustomArgument = "-i https://pypi.tuna.tsinghua.edu.cn/simple "
 
 
 
