@@ -50,57 +50,6 @@ function Environment_Initialize {
     $script:regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
     $script:multiHeadphoneObjectArray = Get-Content $configPathMultiHeadphone | ConvertFrom-Json
 
-    #TODO
-    # This is a extremely simple config checker...
-    # Extend it
-    foreach ($configEntry in $targetCurveObjectArray) {
-        if ($configEntry.CompensationFile -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.HeadphoneType -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.ResultDisplayName -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.Behavior -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-    }
-
-    foreach ($configEntry in $regenerateObjectArray) {
-        if ($configEntry.Comment -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.DisplayName -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.InputPathContain -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.CompensationFile -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.BassBoost -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.IemBassBoost -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-    }
-
-    foreach ($configEntry in $multiHeadphoneObjectArray) {
-        if ($configEntry.InputFolder -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.OutputFolder -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-        if ($configEntry.HeadphoneType -eq $null) {
-            throw $errMsgEmptyValueInConfig
-        }
-    }
-
     # Confirm initialize success in the very end
     #    if there is no exception
     $script:checkInitialize = $true
