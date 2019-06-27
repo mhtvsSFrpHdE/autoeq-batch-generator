@@ -1,0 +1,1 @@
+$allSoftwareFileArray = $libCtspw, $libSimpleCatch, $configPathTargetCurve, $configPathRegenerate, $configPathMultiHeadphone

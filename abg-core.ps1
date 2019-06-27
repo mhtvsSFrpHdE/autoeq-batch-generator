@@ -43,9 +43,10 @@ $configPathTargetCurve = ".\targetCurve.json"
 $configPathRegenerate = ".\regenerate.json"
 $configPathMultiHeadphone = ".\multiHeadphone.json"
 
-# Magic value
-$allSoftwareFileArray = $libCtspw, $libSimpleCatch, $configPathTargetCurve, $configPathRegenerate, $configPathMultiHeadphone
+# Interact config(use ps1 as config)
+$interactConfigPathMessage = ".\abg-message.ps1"
 
+# Magic value
 $bassBoostZeroValue = "0.0"
 $behaviorStandardization = "Standardization"
 $behaviorMimesis = "Mimesis"
@@ -58,7 +59,7 @@ $universalHeadphoneType = "None"
 $venvDetectPath = "$autoEqInstallPath\venv"
 
 # Message
-. ".\abg-message.ps1"
+. $interactConfigPathMessage
 
 
 
