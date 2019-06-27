@@ -55,7 +55,7 @@ $errMsgUnknownBehavior = "$errMsg Unknown behavior in regenerate config"
 $behaviorStandardization = "Standardization"
 $behaviorMimesis = "Mimesis"
 
-# Global placeholder
+# Global variable
 $targetCurveObjectArray = $null
 $regenerateObjectArray = $null
 $multiHeadphoneObjectArray = $null
