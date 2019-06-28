@@ -49,7 +49,7 @@ function Environment_Setup {
         Cstpw_WriteScript "chcp 65001"
         Cstpw_WriteScript "cd /d `"$autoEqInstallPath`""
         Cstpw_WriteScript "python -m pip install --upgrade pip"
-        Cstpw_WriteScript "pip install " + $pipCustomArgument + "virtualenv"
+        Cstpw_WriteScript ("pip install " + $pipCustomArgument + "virtualenv")
         Cstpw_WriteScript "virtualenv venv -v"
         Cstpw_WriteScript "call venv\Scripts\activate.bat"
         Cstpw_WriteScript "pip install " + $pipCustomArgument + "-r requirements.txt"
