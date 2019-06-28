@@ -49,6 +49,7 @@ function DoSomethingFunction {
     }
 
     # The Behavior set to Mimesis for all target curve while using all to all mode
+    #TODO ResultDisplayName still don't have headphone name
     $myObj = New-Object -TypeName psobject -Property @{
         CompensationFile  = $InputFile;
         HeadphoneType     = $currentHeadphoneType;
