@@ -9,11 +9,13 @@
 
 # Global variable
 $targetCurveObjectArray = @()
+$multiHeadphoneObjectArray = @()
 $regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
 
 function DoSomethingFunction {
     param (
-        $InputFile
+        $InputFile,
+        $OutputFileArray
     )
     
     # Get information from input file
