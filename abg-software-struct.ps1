@@ -1,6 +1,3 @@
-# Set cmd script file location
-$CSTPW_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
-
 # Library
 $libCtspw = ".\cstpw.ps1"
 $libSimpleCatch = ".\simplecatch.ps1"

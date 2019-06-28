@@ -38,6 +38,9 @@ $pipCustomArgument = "-i https://pypi.tuna.tsinghua.edu.cn/simple "
 # AutoEq install path
 $autoEqInstallPath = "C:\AutoEq-master"
 
+# Set cmd script file location
+$CSTPW_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
+
 # Release the gain value limit
 $maxGain = "24.0"
 $trebleMaxGain = $maxGain
