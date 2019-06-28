@@ -1,5 +1,6 @@
 # Library
 $libCtspw = ".\cstpw.ps1"
+$libFolderIterator = ".\folder-iterator.ps1"
 $libSimpleCatch = ".\simplecatch.ps1"
 
 # Config
