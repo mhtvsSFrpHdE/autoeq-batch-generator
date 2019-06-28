@@ -255,6 +255,9 @@ if ($checkInitialize) {
     # Load library
     . $libCtspw
     . $libSimpleCatch
+    # Overwrite library default value
+    # The default value "UTF8NoBOM" hasn't support by powershell yet
+    $script:cstpw_scriptEncoding = "UTF8"
     try {
         # Prepare environment
         Environment_Setup
