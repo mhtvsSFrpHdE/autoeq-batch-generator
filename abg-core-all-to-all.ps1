@@ -50,20 +50,32 @@ function DoSomethingFunction {
         }
     }
 
-    # The Behavior set to Mimesis for all target curve while using all to all mode
-    #TODO ResultDisplayName still don't have headphone name
-    $myObj = New-Object -TypeName psobject -Property @{
-        CompensationFile  = $InputFile;
-        HeadphoneType     = $currentHeadphoneType;
-        ResultDisplayName = $currentResultDisplayName;
-        Behavior          = "Mimesis"
-    }
-
+    # Some of the value may be null if not skipping.
     if (!$skipThisItem) {
-        $script:targetCurveObjectArray += $myObj
+        # The Behavior set to Mimesis for all target curve while using all to all mode
+        #TODO ResultDisplayName still don't have headphone name
+        $currentTargetCurveResultDisplayName = ($OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
+        $currentTargetCurveObj = New-Object -TypeName psobject -Property @{
+            CompensationFile  = $InputFile;
+            HeadphoneType     = $currentHeadphoneType;
+            ResultDisplayName = $currentTargetCurveResultDisplayName;
+            Behavior          = "Mimesis"
+        }
+        
+        $currentMultiHeadphoneInputFolder = Split-Path $InputFile
+        $currentMultiHeadphoneOutputFolder = ("myresults\" + $OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
+        $currentMultiHeadphoneObj = New-Object -TypeName psobject -Property @{
+            InputFolder   = $currentMultiHeadphoneInputFolder;
+            OutputFolder  = $currentMultiHeadphoneOutputFolder;
+            HeadphoneType = $currentHeadphoneType
+        }
+
+        $script:targetCurveObjectArray += $currentTargetCurveObj
+        $script:multiHeadphoneObjectArray += $currentMultiHeadphoneObj
     }
 }
 
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
 
 $targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json"
+$multiHeadphoneObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\multiHeadphoneAll.json"
