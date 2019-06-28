@@ -45,7 +45,7 @@ function Environment_Setup {
 
         # Create the environment setup script
         #TODO add custom pip option
-        CreateCmdScript
+        Cstpw_CreateScript
         Cstpw_WriteScript "chcp 65001"
         Cstpw_WriteScript "cd /d `"$autoEqInstallPath`""
         Cstpw_WriteScript "python -m pip install --upgrade pip"
@@ -61,7 +61,7 @@ function Environment_Setup {
         $keepLoopMark = $false
         do {
             # Run environment setup script
-            RunCmdScript -Wait
+            Cstpw_RunScript -Wait
     
             # Ask user for the script execute result
             Write-Host $usrMsgAskVenvStatus
