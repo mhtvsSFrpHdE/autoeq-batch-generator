@@ -14,3 +14,15 @@ $configPathMultiHeadphone = ".\multiHeadphone.json"
 $interactConfigPathMessage = ".\abg-message.ps1"
 $interactConfigPathMagicValue = ".\abg-magic-value.ps1"
 $interactConfigPathUserConfig = ".\abg-user-config.ps1"
+
+# All files array(overwrite exist variable that defined by abg launcher)
+$script:filesToCheckArray = @(
+    $libCtspw,
+    $libSimpleCatch,
+    $configPathTargetCurve,
+    $configPathRegenerate,
+    $configPathMultiHeadphone,
+    $configPathMultiHeadphone,
+    $interactConfigPathMagicValue,
+    $interactConfigPathUserConfig
+)
