@@ -39,21 +39,26 @@ function DoSomethingFunction {
         }
     }
 
-    foreach($regenerateObject in $regenerateObjectArray){
-        if($InputFile -contains $regenerateObject.InputPathContain){
-            $currentResultDisplayName = $regenerateObject.InputPathContain.replace("\\", "_")
+    $skipThisItem = $true
+    foreach ($regenerateObject in $regenerateObjectArray) {
+        if ($InputFile.Contains($regenerateObject.InputPathContain)) {
+            $currentResultDisplayName = $regenerateObject.InputPathContain.replace("`\", "_")
+            $skipThisItem = $false
+            break
         }
     }
 
     # The Behavior set to Mimesis for all target curve while using all to all mode
     $myObj = New-Object -TypeName psobject -Property @{
-        CompensationFile=$InputFile;
-        HeadphoneType="None";
-        ResultDisplayName="";
-        Behavior="Mimesis"
+        CompensationFile  = $InputFile;
+        HeadphoneType     = $currentHeadphoneType;
+        ResultDisplayName = $currentResultDisplayName;
+        Behavior          = "Mimesis"
     }
 
-    $script:targetCurveObjectArray += $myObj
+    if (!$skipThisItem) {
+        $script:targetCurveObjectArray += $myObj
+    }
 }
 
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
