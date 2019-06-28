@@ -1,4 +1,7 @@
-﻿# User input values
+﻿# Load software struct
+. ".\abg-software-struct.ps1"
+
+# User input values
 . $interactConfigPathUserConfig
 
 # Other default values
