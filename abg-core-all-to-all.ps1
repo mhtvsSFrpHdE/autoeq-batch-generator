@@ -20,20 +20,20 @@ function DoSomethingFunction {
     $currentHeadphoneType = "";
     $currentResultDisplayName = "";
 
-    switch -wildcard ($InputFile){
-        "*\inear\*"{
+    switch -wildcard ($InputFile) {
+        "*\inear\*" {
             $currentHeadphoneType = "InEar"
             break
         }
-        "*\onear\*"{
+        "*\onear\*" {
             $currentHeadphoneType = "OnEar"
             break
         }
-        "*\earbud\*"{
+        "*\earbud\*" {
             $currentHeadphoneType = "Earbud"
             break
         }
-        default{
+        default {
             $currentHeadphoneType = "None"
             break
         }
@@ -63,5 +63,4 @@ function DoSomethingFunction {
 
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
 
-Write-Host "##########"
 $targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json"
