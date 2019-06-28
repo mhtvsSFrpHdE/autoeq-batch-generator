@@ -42,7 +42,7 @@ function DoSomethingFunction {
     $skipThisItem = $true
     foreach ($regenerateObject in $regenerateObjectArray) {
         if ($InputFile.Contains($regenerateObject.InputPathContain)) {
-            $currentResultDisplayName = $regenerateObject.InputPathContain.replace("`\", "_")
+            $currentResultDisplayName = $regenerateObject.InputPathContain.Replace("`\", "_")
             $skipThisItem = $false
             break
         }
