@@ -6,17 +6,17 @@ function CheckFiles {
     $passedCheck = $true
 
     foreach ($file in $FilesToCheckArray) {
-        try{
+        try {
             Get-Content $file -ErrorAction Stop | Out-Null
             # Write-Host "Passed: $file"
         }
-        catch{
+        catch {
             $passedCheck = $false
             Write-Host "ERR: $file"
         }
     }
 
-    if(!$passedCheck){
+    if (!$passedCheck) {
         Write-Error "One or more software file courroupted."
         exit 1
     }
@@ -29,7 +29,7 @@ $filesToCheckArray = @(
     ".\abg-message.ps1",
     ".\abg-software-struct.ps1",
     ".\abg-user-config.ps1"
-    )
+)
 # Check them
 CheckFiles -FilesToCheckArray $filesToCheckArray
 
