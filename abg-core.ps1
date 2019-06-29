@@ -23,9 +23,9 @@ $checkInitialize = $false
 # Environment initialize
 function Environment_Initialize {
     # Load config file
-    $script:targetCurveObjectArray = Get-Content $configPathTargetCurve | ConvertFrom-Json
-    $script:regenerateObjectArray = Get-Content $configPathRegenerate | ConvertFrom-Json
-    $script:multiHeadphoneObjectArray = Get-Content $configPathMultiHeadphone | ConvertFrom-Json
+    $script:targetCurveObjectArray = Get-Content $configPathTargetCurve -ErrorAction Stop | ConvertFrom-Json
+    $script:regenerateObjectArray = Get-Content $configPathRegenerate -ErrorAction Stop | ConvertFrom-Json
+    $script:multiHeadphoneObjectArray = Get-Content $configPathMultiHeadphone -ErrorAction Stop | ConvertFrom-Json
 
     # Confirm initialize success in the very end
     #    if there is no exception
