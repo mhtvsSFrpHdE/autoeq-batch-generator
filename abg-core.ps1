@@ -144,7 +144,7 @@ function AutoEqScript_CoreWorker {
             
             #TODO: artument this
             # Do nothing if target already exist
-            if (Test-Path -LiteralPath $savePath) {
+            if (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") {
                 continue
             }
 
