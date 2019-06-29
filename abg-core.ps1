@@ -141,6 +141,12 @@ function AutoEqScript_CoreWorker {
             # Export result save path by using result display name
             $resultDisplayName = $targetCurveObject.ResultDisplayName
             $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
+            
+            #TODO: artument this
+			# Do nothing if target already exist
+			if (Test-Path -LiteralPath $savePath){
+				continue
+			}
 
             # Confirm this is a mimesis other headphone behavior or just use compensation file
             # Generate different command by condition
