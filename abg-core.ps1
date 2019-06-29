@@ -277,6 +277,7 @@ if ($checkInitialize) {
         AutoEqScript_Foot
 
         # Run AutoEq
+        #TODO: Add switch to ignore run
         Cstpw_RunScript
     }
     catch {
