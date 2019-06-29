@@ -126,7 +126,9 @@ function AutoEqScript_CoreWorker {
 
         # Create a bool to check headphone type
         $checkHeadphoneType = $false
-        if ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ) {
+		# if HeadphoneType equal targetCurveHeadphoneType or None
+		#    or targetCurveHeadphoneType equal None
+        if ( ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($HeadphoneType -eq $universalHeadphoneType) ) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ) {
             $checkHeadphoneType = $true
         }
 
