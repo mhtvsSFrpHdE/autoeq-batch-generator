@@ -52,7 +52,7 @@ function Environment_Setup {
         Cstpw_WriteScript ("pip install " + $pipCustomArgument + "virtualenv")
         Cstpw_WriteScript "virtualenv venv -v"
         Cstpw_WriteScript "call venv\Scripts\activate.bat"
-        Cstpw_WriteScript "pip install " + $pipCustomArgument + "-r requirements.txt"
+        Cstpw_WriteScript ("pip install " + $pipCustomArgument + "-r requirements.txt")
         Cstpw_WriteScript "pause"
         Cstpw_WriteScript "exit"
 
