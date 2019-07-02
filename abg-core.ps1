@@ -1,5 +1,4 @@
-﻿#TODO: Delete before overwrite
-param (
+﻿param (
     [switch] $Overwrite = $false,
     [switch] $DisableAutoRun = $false
 )
