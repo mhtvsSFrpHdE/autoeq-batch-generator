@@ -8,6 +8,9 @@ param (
 # Load user config for AutoEq install path
 . $interactConfigPathUserConfig
 
+# Load message
+. $interactConfigPathMessage
+
 # Load library
 . $libFolderIterator
 
@@ -79,6 +82,7 @@ function DoSomethingFunction {
     }
 }
 
+Write-Host $usrMsgImWorkingAllToAll
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
 
 $targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json"
