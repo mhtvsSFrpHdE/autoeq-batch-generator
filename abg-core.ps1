@@ -284,7 +284,7 @@ if ($checkInitialize) {
         Environment_Setup
 
         # Create script
-        #TODO add a hind that shows i am working on generate bat
+        Write-Host $usrMsgImWorking
         AutoEqScript_Header
         AutoEqScript_Body
         AutoEqScript_Foot
