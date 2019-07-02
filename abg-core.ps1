@@ -1,6 +1,7 @@
 param (
-    [switch] $Overwrite = $false,
-    [switch] $DisableAutoRun = $false
+    [switch] $DisableAutoRun = $false,
+    [switch] $MultiHeadphone = $false,
+    [switch] $Overwrite = $false
 )
 
 # Load software struct
@@ -9,12 +10,17 @@ param (
 # User input values
 . $interactConfigPathUserConfig
 # Copy values from argument to user input
-if ($Overwrite -ne $behaviorOverwriteExistResult) {
-    $behaviorOverwriteExistResult = $true
-}
 if ($DisableAutoRun -ne (!$behaviorAutoRunSavedScript) ) {
     $behaviorAutoRunSavedScript = $false
 }
+if ($MultiHeadphone -ne $behaviorMultiHeadphone) {
+    $behaviorMultiHeadphone = $true
+}
+if ($Overwrite -ne $behaviorOverwriteExistResult) {
+    $behaviorOverwriteExistResult = $true
+}
+
+
 
 # Other default values
 

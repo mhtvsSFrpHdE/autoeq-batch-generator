@@ -1,8 +1,9 @@
 param (
-    [switch] $Overwrite = $false,
-    [switch] $DisableAutoRun = $false
+    [switch] $DisableAutoRun = $false,
+    [switch] $MultiHeadphone = $false,
+    [switch] $Overwrite = $false
 )
-# Add a switch to main script to allow dynamic multiheadphone mode.
+
 function CheckFiles {
     param (
         $FilesToCheckArray = @()
@@ -45,4 +46,4 @@ CheckFiles -FilesToCheckArray $filesToCheckArray
 CheckFiles -FilesToCheckArray $filesToCheckArray
 
 # If CheckFiles function passed, run abg-core
-& ".\abg-core.ps1" -Overwrite:$Overwrite -DisableAutoRun:$DisableAutoRun
+& ".\abg-core.ps1" -Overwrite:$Overwrite -DisableAutoRun:$DisableAutoRun -MultiHeadphone:$MultiHeadphone
