@@ -44,3 +44,9 @@ $CSTPW_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 # Release the gain value limit
 $maxGain = "24.0"
 $trebleMaxGain = $maxGain
+
+# Overwrite exist result
+$behaviorOverwriteExistResult = $false
+
+# Auto run saved script
+$behaviorAutoRunSavedScript = $true

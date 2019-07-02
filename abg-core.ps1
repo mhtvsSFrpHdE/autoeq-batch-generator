@@ -1,8 +1,21 @@
-﻿# Load software struct
+﻿#TODO: Delete before overwrite
+param (
+    [switch] $Overwrite = $false,
+    [switch] $DisableAutoRun = $false
+)
+
+# Load software struct
 . ".\abg-software-struct.ps1"
 
 # User input values
 . $interactConfigPathUserConfig
+# Copy values from argument to user input
+if ($Overwrite -ne $behaviorOverwriteExistResult) {
+    $behaviorOverwriteExistResult = $true
+}
+if ($DisableAutoRun -ne (!$behaviorAutoRunSavedScript) ) {
+    $behaviorAutoRunSavedScript = $false
+}
 
 # Other default values
 
