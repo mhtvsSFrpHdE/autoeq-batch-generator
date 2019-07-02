@@ -1,0 +1,39 @@
+[
+    {
+        "CompensationFile":  "C:\\AutoEq-master\\compensation\\loudspeaker_in-room_flat_2013.csv",
+		"HeadphoneType":  "None",
+        "ResultDisplayName":  "harman_ls_2013",
+        "Behavior": "Standardization"
+    },
+    {
+        "CompensationFile":  "C:\\AutoEq-master\\compensation\\harman_over-ear_2018.csv",
+		"HeadphoneType":  "OnEar",
+        "ResultDisplayName":  "harman_oe_2018",
+        "Behavior": "Standardization"
+
+    },
+	{
+        "CompensationFile":  "C:\\AutoEq-master\\compensation\\harman_in-ear_2017-2.csv",
+		"HeadphoneType":  "InEar",
+        "ResultDisplayName":  "harman_ie_2017-2",
+        "Behavior": "Standardization"
+    },
+    {
+        "CompensationFile":  "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Sennheiser HD 800\\Sennheiser HD 800.csv",
+		"HeadphoneType":  "OnEar",
+        "ResultDisplayName":  "hd800",
+        "Behavior": "Mimesis"
+    },
+	{
+        "CompensationFile":  "C:\\AutoEq-master\\rtings\\data\\onear\\Grado SR80e\\Grado SR80e.csv",
+		"HeadphoneType":  "OnEar",
+        "ResultDisplayName":  "sr80e",
+        "Behavior": "Mimesis"
+    },
+	{
+        "CompensationFile":  "C:\\AutoEq-master\\headphonecom\\data\\onear\\AKG K240 MKII\\AKG K240 MKII.csv",
+		"HeadphoneType":  "OnEar",
+        "ResultDisplayName":  "k240mkii",
+        "Behavior": "Mimesis"
+    }
+]

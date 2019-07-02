@@ -1,0 +1,130 @@
+[
+    {
+        "Comment": "Innerfidelity on-ear SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "innerfidelity\\data\\onear",
+        "CompensationFile": "innerfidelity\\resources\\innerfidelity_compensation_sbaf-serious.csv",
+        "BassBoost" : "4.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Innerfidelity in-ear SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "innerfidelity\\data\\inear",
+        "CompensationFile": "innerfidelity\\resources\\innerfidelity_compensation_sbaf-serious.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Innerfidelity earbud SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "innerfidelity\\data\\earbud",
+        "CompensationFile": "innerfidelity\\resources\\innerfidelity_compensation_sbaf-serious.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "0.0"
+    },
+	{
+        "Comment": "Headphone.com on-ear SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "headphonecom\\data\\onear",
+        "CompensationFile": "headphonecom\\resources\\headphonecom_compensation_sbaf-serious.csv",
+        "BassBoost" : "4.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Headphone.com in-ear SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "headphonecom\\data\\inear",
+        "CompensationFile": "headphonecom\\resources\\headphonecom_compensation_sbaf-serious.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Headphone.com earbud SBAF-Serious",
+        "DisplayName": "sbaf",
+        "InputPathContain":  "headphonecom\\data\\earbud",
+        "CompensationFile": "headphonecom\\resources\\headphonecom_compensation_sbaf-serious.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Oratory1990 on-ear",
+        "DisplayName": "harman_oe2018",
+        "InputPathContain":  "oratory1990\\data\\onear",
+        "CompensationFile": "compensation\\harman_over-ear_2018_wo_bass.csv",
+        "BassBoost" : "4.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Oratory1990 in-ear Harman in-ear 2017-1",
+        "DisplayName": "harman_ie2017_1",
+        "InputPathContain":  "oratory1990\\data\\inear",
+        "CompensationFile": "compensation\\harman_in-ear_2017-1_wo_bass.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Oratory1990 in-ear Usound",
+        "DisplayName": "usound",
+        "InputPathContain":  "oratory1990\\data\\inear",
+        "CompensationFile": "compensation\\usound_wo_bass.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Oratory1990 earbud",
+        "DisplayName": "harman_ie2017_1",
+        "InputPathContain":  "oratory1990\\data\\earbud",
+        "CompensationFile": "compensation\\harman_in-ear_2017-1_wo_bass.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Rtings on-ear Avg",
+        "DisplayName": "avg",
+        "InputPathContain":  "rtings\\data\\onear",
+        "CompensationFile": "rtings\\resources\\rtings_compensation_avg.csv",
+        "BassBoost" : "4.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Rtings in-ear Avg",
+        "DisplayName": "avg",
+        "InputPathContain":  "rtings\\data\\inear",
+        "CompensationFile": "rtings\\resources\\rtings_compensation_avg.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Rtings earbud Avg",
+        "DisplayName": "avg",
+        "InputPathContain":  "rtings\\data\\earbud",
+        "CompensationFile": "rtings\\resources\\rtings_compensation_avg.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Reference Audio Analyzer on-ear",
+        "DisplayName": "zero",
+        "InputPathContain":  "referenceaudioanalyzer\\data",
+        "CompensationFile": "compensation\\zero.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "0.0"
+    },
+    {
+        "Comment": "Crinacle in-ear",
+        "DisplayName": "harman_ie2017_1",
+        "InputPathContain":  "crinacle\\data\\inear",
+        "CompensationFile": "compensation\\harman_in-ear_2017-1_wo_bass.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    },
+    {
+        "Comment": "Crinacle in-ear",
+        "DisplayName": "usound",
+        "InputPathContain":  "crinacle\\data\\inear",
+        "CompensationFile": "compensation\\usound_wo_bass.csv",
+        "BassBoost" : "0.0",
+        "IemBassBoost" : "6.0"
+    }
+]
