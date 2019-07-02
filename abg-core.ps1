@@ -57,7 +57,6 @@ function Environment_Setup {
         Write-Host $usrMsgBlankLine
 
         # Create the environment setup script
-        #TODO add custom pip option
         Cstpw_CreateScript
         Cstpw_WriteScript "chcp 65001"
         Cstpw_WriteScript "cd /d `"$autoEqInstallPath`""
