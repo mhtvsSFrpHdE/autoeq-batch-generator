@@ -210,10 +210,10 @@ function AutoEqScript_CoreWorker {
                         $regenBassBoost = $regenerateObjectForTarget.BassBoost
                         $regenIemBassBoost = $regenerateObjectForTarget.IemBassBoost
 
+                        # Delete exist regen result
+                        Cstpw_WriteScript "rmdir /s /q `"$regenSavePath`""
                         # A test shows --bass_boost and --iem_bass_boost can't be given together
                         # So if one of them equal to zero, it will be disabled.
-                        Cstpw_WriteScript "REM Mimesis"
-                        Cstpw_WriteScript "rmdir /s /q `"$regenSavePath`""
                         if ($regenIemBassBoost -eq $bassBoostZeroValue) {
                             Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                         }
@@ -225,6 +225,8 @@ function AutoEqScript_CoreWorker {
                         # Generate regenerated csv path
                         $regenCsvPath = "$regenSavePath\$regenInputFolderName.csv"
                         
+                        # Delete exist result
+                        Cstpw_WriteScript "rmdir /s /q `"$savePath`""
                         # Finally
                         # jaakkopasanen: "Something like this"
                         if ($iemBassBoostForHeadphone -eq $bassBoostZeroValue) {
