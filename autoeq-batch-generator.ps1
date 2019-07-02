@@ -2,7 +2,7 @@ param (
     [switch] $Overwrite = $false,
     [switch] $DisableAutoRun = $false
 )
-
+# Add a switch to main script to allow dynamic multiheadphone mode.
 function CheckFiles {
     param (
         $FilesToCheckArray = @()

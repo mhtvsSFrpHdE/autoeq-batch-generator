@@ -15,6 +15,9 @@ $outputFolder_default = "myresults\m50x"
 # Available option:
 # "OnEar"
 # "InEar"
+# "Earbud"
+# To disable this check, use
+# "None"
 $headphoneType_default = "OnEar"
 
 # Pip download server
