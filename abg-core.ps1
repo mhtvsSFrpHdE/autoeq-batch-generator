@@ -155,9 +155,8 @@ function AutoEqScript_CoreWorker {
             $resultDisplayName = $targetCurveObject.ResultDisplayName
             $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
             
-            #TODO: artument this
-            # Do nothing if target already exist
-            if (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") {
+            # Do nothing if target already exist && OverwriteExistResult is false
+            if ( (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") -and $behaviorOverwriteExistResult ) {
                 continue
             }
 
@@ -291,8 +290,9 @@ if ($checkInitialize) {
         AutoEqScript_Foot
 
         # Run AutoEq
-        #TODO: Add switch to ignore run
-        Cstpw_RunScript
+        if ($behaviorAutoRunSavedScript) {
+            Cstpw_RunScript
+        }
     }
     catch {
         SimpleCatch $_
