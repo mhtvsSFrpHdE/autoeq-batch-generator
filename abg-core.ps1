@@ -1,4 +1,4 @@
-﻿param (
+param (
     [switch] $Overwrite = $false,
     [switch] $DisableAutoRun = $false
 )
