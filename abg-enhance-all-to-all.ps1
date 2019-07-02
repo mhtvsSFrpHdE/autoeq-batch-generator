@@ -8,6 +8,9 @@ param (
 # Load user config for AutoEq install path
 . $interactConfigPathUserConfig
 
+# Load magic value for Out-File default encoding
+. $interactConfigPathMagicValue
+
 # Load message
 . $interactConfigPathMessage
 
@@ -85,5 +88,5 @@ function DoSomethingFunction {
 Write-Host $usrMsgImWorkingAllToAll
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
 
-$targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json"
-$multiHeadphoneObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\multiHeadphoneAll.json"
+$targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json" -Encoding $allToAllOutputDefaultEncoding
+$multiHeadphoneObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\multiHeadphoneAll.json" -Encoding $allToAllOutputDefaultEncoding
