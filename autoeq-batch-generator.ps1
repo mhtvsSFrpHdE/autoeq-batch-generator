@@ -45,4 +45,4 @@ CheckFiles -FilesToCheckArray $filesToCheckArray
 CheckFiles -FilesToCheckArray $filesToCheckArray
 
 # If CheckFiles function passed, run abg-core
-& ".\abg-core.ps1" -Overwrite $Overwrite -DisableAutoRun $DisableAutoRun
+& ".\abg-core.ps1" -Overwrite:$Overwrite -DisableAutoRun:$DisableAutoRun
