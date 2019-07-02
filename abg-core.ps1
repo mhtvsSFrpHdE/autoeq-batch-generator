@@ -163,7 +163,6 @@ function AutoEqScript_CoreWorker {
 
             # When Standardization a headphone by using basic command argument
             if ($targetCurveObject.Behavior -eq $behaviorStandardization) {
-                Cstpw_WriteScript "REM Standardization"
                 Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
             }
             # When mimesis a headphone to another headphone
