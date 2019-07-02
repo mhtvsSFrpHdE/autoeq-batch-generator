@@ -1,3 +1,7 @@
+param (
+    $DefaultSavePath = "myresults"
+)
+
 # Load software struct
 . ".\abg-software-struct.ps1"
 
@@ -63,8 +67,7 @@ function DoSomethingFunction {
         }
         
         $currentMultiHeadphoneInputFolder = Split-Path $InputFile
-		#TODO custom save path, "myresults\"
-        $currentMultiHeadphoneOutputFolder = ("myresults\" + $OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
+        $currentMultiHeadphoneOutputFolder = ("$DefaultSavePath\" + $OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
         $currentMultiHeadphoneObj = New-Object -TypeName psobject -Property @{
             InputFolder   = $currentMultiHeadphoneInputFolder;
             OutputFolder  = $currentMultiHeadphoneOutputFolder;
