@@ -247,7 +247,7 @@ function AutoEqScript_CoreWorker {
 # Wrapper of AutoEqScript_CoreWorker
 # Enable to use multi headphone mode
 function AutoEqScript_Body {
-    if ($multiHeadphoneMode) {
+    if ($behaviorMultiHeadphone) {
         foreach ($headphoneObject in $multiHeadphoneObjectArray) {
             AutoEqScript_CoreWorker -InputFolder $headphoneObject.InputFolder -OutputFolder $headphoneObject.OutputFolder -HeadphoneType $headphoneObject.HeadphoneType
         }

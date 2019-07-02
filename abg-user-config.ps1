@@ -1,7 +1,7 @@
 # Preset argument
 # Set to true if you want to use for multiple headphones mode.
 # In this mode, the following value will ignored.
-$multiHeadphoneMode = $false
+$behaviorMultiHeadphone = $false
 
 # Both full path and relative path will work
 # The reason to use full path at here is we often copy path from Everything search software
