@@ -145,6 +145,11 @@ function AutoEqScript_CoreWorker {
 
 
 
+        # DO NOTHING if target already exist && OverwriteExistResult is false
+        if ( (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") -and $behaviorOverwriteExistResult ) {
+            #TODO Print message
+            continue
+        }
 
         # And then for the object left in loop
         # Confirm this is a mimesis other headphone behavior or just use compensation file
