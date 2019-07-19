@@ -138,7 +138,7 @@ function AutoEqScript_CoreWorker {
     foreach ($targetCurveObject in $targetCurveObjectArray) {
         # Try not to apply curve to wrong headphone type
         # For example, DO NOT apply in ear curve to on ear headphones
-        # As a "JUST DO IT" method, fill $universalHeadphoneType to targetCurve.json
+        # As a "JUST DO IT" method, fill $universalHeadphoneType in "targetCurve.json, multiHeadphone.json"
         # to ignore headphone type check
 
         # Create a bool to check headphone type
