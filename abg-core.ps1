@@ -146,6 +146,7 @@ function AutoEqScript_CoreWorker {
 
 
 
+        # And then for the object left in loop
         # Confirm this is a mimesis other headphone behavior or just use compensation file
         # Generate different command by condition
 
