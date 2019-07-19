@@ -144,88 +144,99 @@ function AutoEqScript_CoreWorker {
         }
 
 
-            # Confirm this is a mimesis other headphone behavior or just use compensation file
-            # Generate different command by condition
 
-            # When Standardization a headphone by using basic command argument
-            if ($targetCurveObject.Behavior -eq $behaviorStandardization) {
-                Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-            }
-            # When mimesis a headphone to another headphone
-            # The logic is more complex a little bit
-            elseif ($targetCurveObject.Behavior -eq $behaviorMimesis) {
-                # Export headphone values
-                $compensationFileForHeadphone = $null
-                $bassBoostForHeadphone = $null
-                $iemBassBoostForHeadphone = $null
-                foreach ($regenerateObjectForHeadphone in $regenerateObjectArray) {
-                    $regenInputPathContainForHeadphone = $regenerateObjectForHeadphone.InputPathContain
-                    if ($InputFolder -like "*$regenInputPathContainForHeadphone*") {
-                        $compensationFileForHeadphone = $regenerateObjectForHeadphone.CompensationFile
-                        $bassBoostForHeadphone = $regenerateObjectForHeadphone.BassBoost
-                        $iemBassBoostForHeadphone = $regenerateObjectForHeadphone.IemBassBoost
-                    }
+
+        # Confirm this is a mimesis other headphone behavior or just use compensation file
+        # Generate different command by condition
+
+        # Export compensationFile
+        $compensationFileForTarget = $targetCurveObject.CompensationFile
+
+        # Export result save path by using result display name
+        $resultDisplayName = $targetCurveObject.ResultDisplayName
+        $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
+
+        # Confirm this is a mimesis other headphone behavior or just use compensation file
+        # Generate different command by condition
+
+        # When Standardization a headphone by using basic command argument
+        if ($targetCurveObject.Behavior -eq $behaviorStandardization) {
+            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForTarget`" --equalize --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+        }
+        # When mimesis a headphone to another headphone
+        # The logic is more complex a little bit
+        elseif ($targetCurveObject.Behavior -eq $behaviorMimesis) {
+            # Export headphone values
+            $compensationFileForHeadphone = $null
+            $bassBoostForHeadphone = $null
+            $iemBassBoostForHeadphone = $null
+            foreach ($regenerateObjectForHeadphone in $regenerateObjectArray) {
+                $regenInputPathContainForHeadphone = $regenerateObjectForHeadphone.InputPathContain
+                if ($InputFolder -like "*$regenInputPathContainForHeadphone*") {
+                    $compensationFileForHeadphone = $regenerateObjectForHeadphone.CompensationFile
+                    $bassBoostForHeadphone = $regenerateObjectForHeadphone.BassBoost
+                    $iemBassBoostForHeadphone = $regenerateObjectForHeadphone.IemBassBoost
                 }
+            }
 
-                # Regenerate required "mimesis target" result by using our own argument
-                # The mainly regenerate reason is release max_gain limit
+            # Regenerate required "mimesis target" result by using our own argument
+            # The mainly regenerate reason is release max_gain limit
 
-                # We need to know the "mimesis target" default result belong to which data source
-                # Scan config file
-                foreach ($regenerateObjectForTarget in $regenerateObjectArray) {
-                    # Export data source path from config
-                    $regenInputPathContainForTarget = $regenerateObjectForTarget.InputPathContain
+            # We need to know the "mimesis target" default result belong to which data source
+            # Scan config file
+            foreach ($regenerateObjectForTarget in $regenerateObjectArray) {
+                # Export data source path from config
+                $regenInputPathContainForTarget = $regenerateObjectForTarget.InputPathContain
+                
+                # If mimesis target matched with this config entry
+                if ($compensationFileForTarget -like "*$regenInputPathContainForTarget*") {
+                    # Export regenerate purpose input folder
+                    $regenInputFolderPath = Split-Path $compensationFileForTarget
+                    $regenInputFolderName = Split-Path $compensationFileForTarget | Split-Path -Leaf
+
+                    # Export regenerate purpose save path
+                    # $regenerateDisplayName = $regenerateObjectForTarget.DisplayName
+                    $regenSavePath = "$autoEqInstallPath\$displayNameRegenerate\$regenInputFolderName"
+
+                    # Export regenerate purpose compensation file
+                    $regenCompensationFile = $regenerateObjectForTarget.CompensationFile
+
+                    # Export other default values
+                    $regenBassBoost = $regenerateObjectForTarget.BassBoost
+                    $regenIemBassBoost = $regenerateObjectForTarget.IemBassBoost
+
+                    # Delete exist regen result
+                    Cstpw_WriteScript "rmdir /s /q `"$regenSavePath`""
+                    # A test shows --bass_boost and --iem_bass_boost can't be given together
+                    # So if one of them equal to zero, it will be disabled.
+                    if ($regenIemBassBoost -eq $bassBoostZeroValue) {
+                        Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                    }
+                    else {
+                        Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                    }
                     
-                    # If mimesis target matched with this config entry
-                    if ($compensationFileForTarget -like "*$regenInputPathContainForTarget*") {
-                        # Export regenerate purpose input folder
-                        $regenInputFolderPath = Split-Path $compensationFileForTarget
-                        $regenInputFolderName = Split-Path $compensationFileForTarget | Split-Path -Leaf
-
-                        # Export regenerate purpose save path
-                        # $regenerateDisplayName = $regenerateObjectForTarget.DisplayName
-                        $regenSavePath = "$autoEqInstallPath\$displayNameRegenerate\$regenInputFolderName"
-
-                        # Export regenerate purpose compensation file
-                        $regenCompensationFile = $regenerateObjectForTarget.CompensationFile
-
-                        # Export other default values
-                        $regenBassBoost = $regenerateObjectForTarget.BassBoost
-                        $regenIemBassBoost = $regenerateObjectForTarget.IemBassBoost
-
-                        # Delete exist regen result
-                        Cstpw_WriteScript "rmdir /s /q `"$regenSavePath`""
-                        # A test shows --bass_boost and --iem_bass_boost can't be given together
-                        # So if one of them equal to zero, it will be disabled.
-                        if ($regenIemBassBoost -eq $bassBoostZeroValue) {
-                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --bass_boost=$regenBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-                        }
-                        else {
-                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$regenInputFolderPath`" --output_dir=`"$regenSavePath`" --compensation=`"$regenCompensationFile`" --equalize --iem_bass_boost=$regenIemBassBoost --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-                        }
-                        
-                        # Then we can use the regenerated result for real operaton             
-                        # Generate regenerated csv path
-                        $regenCsvPath = "$regenSavePath\$regenInputFolderName.csv"
-                        
-                        # Delete exist result
-                        Cstpw_WriteScript "rmdir /s /q `"$savePath`""
-                        # Finally
-                        # jaakkopasanen: "Something like this"
-                        if ($iemBassBoostForHeadphone -eq $bassBoostZeroValue) {
-                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-                        }
-                        else {
-                            Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
-                        }
+                    # Then we can use the regenerated result for real operaton             
+                    # Generate regenerated csv path
+                    $regenCsvPath = "$regenSavePath\$regenInputFolderName.csv"
+                    
+                    # Delete exist result
+                    Cstpw_WriteScript "rmdir /s /q `"$savePath`""
+                    # Finally
+                    # jaakkopasanen: "Something like this"
+                    if ($iemBassBoostForHeadphone -eq $bassBoostZeroValue) {
+                        Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --bass_boost=$bassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
+                    }
+                    else {
+                        Cstpw_WriteScript "python frequency_response.py --input_dir=`"$InputFolder`" --output_dir=`"$savePath`" --compensation=`"$compensationFileForHeadphone`" --sound_signature=`"$regenCsvPath`" --equalize --iem_bass_boost=$iemBassBoostForHeadphone --max_gain $maxGain --treble_max_gain $trebleMaxGain"
                     }
                 }
             }
-            # Opps, there is a unknown behavior in the config file
-            else {
-                Write-Error $errMsgUnknownBehavior
-                exit
-            }
+        }
+        # Opps, there is a unknown behavior in the config file
+        else {
+            Write-Error $errMsgUnknownBehavior
+            exit
         }
     }
 }
