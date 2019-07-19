@@ -141,28 +141,8 @@ function AutoEqScript_CoreWorker {
         # As a "JUST DO IT" method, fill $universalHeadphoneType in "targetCurve.json, multiHeadphone.json"
         # to ignore headphone type check
 
-        # Create a bool to check headphone type
-        $checkHeadphoneType = $false
-        # if HeadphoneType equal targetCurveHeadphoneType or None
-        #    or targetCurveHeadphoneType equal None
-        if ( ( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($HeadphoneType -eq $universalHeadphoneType) ) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ) {
-            $checkHeadphoneType = $true
         }
 
-        # Use this bool for further action
-        # DO NOTHING if the value is false (if not pass headphone type check)
-        if ($checkHeadphoneType) {
-            # Export compensationFile
-            $compensationFileForTarget = $targetCurveObject.CompensationFile
-
-            # Export result save path by using result display name
-            $resultDisplayName = $targetCurveObject.ResultDisplayName
-            $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
-            
-            # Do nothing if target already exist && OverwriteExistResult is false
-            if ( (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") -and $behaviorOverwriteExistResult ) {
-                continue
-            }
 
             # Confirm this is a mimesis other headphone behavior or just use compensation file
             # Generate different command by condition
