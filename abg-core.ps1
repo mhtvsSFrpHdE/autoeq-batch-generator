@@ -162,6 +162,15 @@ function AutoEqScript_CoreWorker {
             continue
         }
 
+        # There is a potential bug exist in early few version of AutoEq
+        # If inputFile/inputFolder doesn't exist,
+        #   it will return it's parent folder.
+        # In case it will iterate through entire parent folder,
+        #   leading to a catastrophic regenerate loop.
+
+        # DO NOTHING if input folder doesn't exist
+        #TODO: Fix this once it appear again
+
         # And then for the object left in loop
         # Confirm this is a mimesis other headphone behavior or just use compensation file
         # Generate different command by condition
