@@ -93,6 +93,6 @@ function DoSomethingFunction {
 Write-Host $usrMsgImWorkingAllToAll
 FolderIterator -InputFolder $autoEqInstallPath -InputFileType ".csv" -Recurse
 
-#TODO: Update default encoding to UTF8 No BOM after powershell 6 become default version
+#TODO_FUTURE: Update default encoding to UTF8 No BOM after powershell 6 become default version
 $targetCurveObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\targetCurveAll.json" -Encoding $allToAllOutputDefaultEncoding
 $multiHeadphoneObjectArray | ConvertTo-Json | Out-File -LiteralPath ".\multiHeadphoneAll.json" -Encoding $allToAllOutputDefaultEncoding
