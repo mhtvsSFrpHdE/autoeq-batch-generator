@@ -54,7 +54,12 @@ function DoSomethingFunction {
     $skipThisItem = $true
     foreach ($regenerateObject in $regenerateObjectArray) {
         if ($InputFile.Contains($regenerateObject.InputPathContain)) {
-            $currentResultDisplayName = $regenerateObject.InputPathContain.Replace("`\", "_")
+            # Remove data\ from path
+            # Replace all "\" with "_"
+            # datasource_data_headphonetype -> datasource_headphonetype
+            $currentResultDisplayName = $regenerateObject.InputPathContain.Replace("`\data", "")
+            $currentResultDisplayName = $currentResultDisplayName.Replace("`\", "_")
+            
             $skipThisItem = $false
             break
         }
