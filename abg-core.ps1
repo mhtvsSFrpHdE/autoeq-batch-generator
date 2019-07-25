@@ -141,29 +141,6 @@ function AutoEqScript_CoreWorker {
         # As a "JUST DO IT" method, fill $universalHeadphoneType in "targetCurve.json, multiHeadphone.json"
         # to ignore headphone type check
 
-        ### TEST CODE ###
-        # One of the following condition must to be true
-        # if HeadphoneType equal targetCurveHeadphoneType
-        # or HeadphoneType equal None
-        # or targetCurveHeadphoneType equal None
-        if ( !( ($HeadphoneType -eq $targetCurveObject.HeadphoneType) -or ($HeadphoneType -eq $universalHeadphoneType) ) -or ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType) ) {
-            continue
-        }
-        ### TEST CODE ###
-
-        # One of the following condition must to be true
-        # if HeadphoneType equal targetCurveHeadphoneType
-        $c1 = $HeadphoneType -eq $targetCurveObject.HeadphoneType
-        # or HeadphoneType equal None
-        $c2 = $HeadphoneType -eq $universalHeadphoneType
-        # or targetCurveHeadphoneType equal None
-        $c3 = $targetCurveObject.HeadphoneType -eq $universalHeadphoneType
-
-        if ( !($c1 -or $c2 -or $c3) ) {
-            continue
-        }
-
-        ### TEST CODE ###
         # One of the following condition must to be true
         # if HeadphoneType equal targetCurveHeadphoneType
         # or HeadphoneType equal None
@@ -173,12 +150,11 @@ function AutoEqScript_CoreWorker {
             ($HeadphoneType -eq $universalHeadphoneType),
             ($targetCurveObject.HeadphoneType -eq $universalHeadphoneType)
         )
-
-        if ($conditionGroupArray -contains $true) {
-
+        
+        # if not contain true
+        if ( !($conditionGroupArray -contains $true) ) {
+            continue
         }
-        ### TEST CODE ###
-
         # DO NOTHING if target already exist && OverwriteExistResult is false
         if ( (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") -and $behaviorOverwriteExistResult ) {
             #TODO Print message
