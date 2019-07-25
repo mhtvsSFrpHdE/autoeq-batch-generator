@@ -155,9 +155,10 @@ function AutoEqScript_CoreWorker {
         if ( !($conditionGroupArray -contains $true) ) {
             continue
         }
-        # DO NOTHING if target already exist && OverwriteExistResult is false
+        
+        # DO NOTHING if target already exist and $OverwriteExistResult set to false
         if ( (Test-Path -LiteralPath "$autoEqInstallPath\$savePath") -and $behaviorOverwriteExistResult ) {
-            #TODO Print message
+            Write-Output ($usrMsgSkipExistResult + "$autoEqInstallPath\$savePath")
             continue
         }
 
