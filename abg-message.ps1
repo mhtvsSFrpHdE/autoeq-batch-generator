@@ -3,6 +3,7 @@ $errMsg = "ERR:"
 $errMsgEmptyValueInConfig = "$errMsg 1 Empty value in config file."
 $errMsgFailedToInitialize = "$errMsg 2 Failed to initialize."
 $errMsgUnknownBehavior = "$errMsg 3 Unknown behavior in regenerate config"
+$errMsgInvalidCompensationFile = "$errMsg 4 Given CompensationFile doesn't end with *.csv"
 
 # User message
 $usrMsgBlankLine = ""
