@@ -162,15 +162,6 @@ function AutoEqScript_CoreWorker {
             continue
         }
 
-        # There is a potential bug exist in early few version of AutoEq
-        # If inputFile/inputFolder doesn't exist,
-        #   it will return it's parent folder.
-        # In case it will iterate through entire parent folder,
-        #   leading to a catastrophic regenerate loop.
-
-        # DO NOTHING if input folder doesn't exist
-        #TODO: Fix this once it appear again
-
         # And then for the object left in loop
         # Confirm this is a mimesis other headphone behavior or just use compensation file
         # Generate different command by condition
@@ -183,7 +174,7 @@ function AutoEqScript_CoreWorker {
         #   in targetCurve.json, the CompensationFile should be a .csv file
         #   instead of a input folder(often mistaken).
         # WE ARE NOT GOING TO SUPPORT TWO CASE AT THE SAME TIME
-        if ( !($compensationFileForTarget -like "*.csv") ){
+        if ( !($compensationFileForTarget -like "*.csv") ) {
             Write-Error $errMsgInvalidCompensationFile
             Write-Output $compensationFileForTarget
             Write-Output $usrMsgBlankLine
