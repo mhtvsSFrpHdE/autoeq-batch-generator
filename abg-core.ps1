@@ -178,6 +178,19 @@ function AutoEqScript_CoreWorker {
         # Export compensationFile
         $compensationFileForTarget = $targetCurveObject.CompensationFile
 
+        # Check if this is a valid compensation file
+        # Users always forget to use correct argument,
+        #   in targetCurve.json, the CompensationFile should be a .csv file
+        #   instead of a input folder(often mistaken).
+        # WE ARE NOT GOING TO SUPPORT TWO CASE AT THE SAME TIME
+        if ( !($compensationFileForTarget -like "*.csv") ){
+            Write-Error $errMsgInvalidCompensationFile
+            Write-Output $compensationFileForTarget
+            Write-Output $usrMsgBlankLine
+            $script:behaviorAutoRunSavedScript = $false
+            continue
+        }
+
         # Export result save path by using result display name
         $resultDisplayName = $targetCurveObject.ResultDisplayName
         $savePath = $OutputFolder + $displayNamePrefix + $resultDisplayName
