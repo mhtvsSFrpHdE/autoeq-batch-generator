@@ -67,8 +67,8 @@ function DoSomethingFunction {
 
     # Some of the value may be null if not skipping.
     if (!$skipThisItem) {
+        # TargetCurve related variables
         # The Behavior set to Mimesis for all target curve while using all to all mode
-        #TODO ResultDisplayName still don't have headphone name
         $currentTargetCurveResultDisplayName = ($OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
         $currentTargetCurveObj = New-Object -TypeName psobject -Property @{
             CompensationFile  = $InputFile;
@@ -77,6 +77,7 @@ function DoSomethingFunction {
             Behavior          = "Mimesis"
         }
         
+        # MultiHeadphone related variables
         $currentMultiHeadphoneInputFolder = Split-Path $InputFile
         $currentMultiHeadphoneOutputFolder = ("$DefaultSavePath\" + $OutputFileArray[2].Replace(" ", "_") + "_$currentResultDisplayName").ToLower()
         $currentMultiHeadphoneObj = New-Object -TypeName psobject -Property @{
@@ -84,7 +85,7 @@ function DoSomethingFunction {
             OutputFolder  = $currentMultiHeadphoneOutputFolder;
             HeadphoneType = $currentHeadphoneType
         }
-
+        
         $script:targetCurveObjectArray += $currentTargetCurveObj
         $script:multiHeadphoneObjectArray += $currentMultiHeadphoneObj
     }
