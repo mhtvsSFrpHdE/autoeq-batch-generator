@@ -31,7 +31,7 @@ $headphoneType_default = "OnEar"
 # Leave it blank to use default options:
 # Notic that in this case there is no space character.
 #   $pipCustomArgument = ""
-$pipCustomArgument = "-i https://pypi.tuna.tsinghua.edu.cn/simple "
+$pipCustomArgument = ""
 
 
 
