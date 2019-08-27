@@ -1,0 +1,20 @@
+# 错误信息
+$errMsg = "发生错误:"
+$errMsgEmptyValueInConfig = "$errMsg 1 在预设文件中有不应该的空的数值."
+$errMsgFailedToInitialize = "$errMsg 2 失败的启动."
+$errMsgUnknownBehavior = "$errMsg 3 在预设文件中找到了不应该存在的数值"
+$errMsgInvalidCompensationFile = "$errMsg 4 填写的目标文件不是支持的.csv格式"
+
+# 交互信息
+$usrMsgBlankLine = ""
+$usrMsgVenvNotFound = "没有找到AutoEq所需的运行文件."
+$usrMsgVenvNotFound2 = "按下Enter可自动下载, 或直接从右上角关闭这个窗口而什么都不做."
+$usrMsgAskVenvStatus = "自动下载的文件成功解压了吗?"
+$usrMsgAskVenvStatus2 = "或者出现了意外的错误需要人类参与处理?"
+$usrMsgAskVenvStatusYes = "Y, 全部成功(同时启动AutoEq)."
+$usrMsgAskVenvStatusNo = "N, 我来人工处理(停止这个小工具)."
+$usrMsgAskVenvStatusRetry = "R, 我不知道, 再自动重试一遍看看能不能起作用."
+$usrMsgAskVenvStatusDefault = "默认使用N行为."
+$usrMsgImWorking = "按照预设的数值生成AutoEq启动文件..."
+$usrMsgImWorkingAllToAll = "扫描文件夹和生成json预设文件..."
+$usrMsgSkipExistResult = "跳过了已经存在的结果: "
