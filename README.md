@@ -22,7 +22,7 @@ The powershell script will read the predefined config file, and do something aut
 - Extreme all to all mode
 
 Planned feature:
-- None
+- Add version to each of config file, for sync translate better.
 
 **How to use**  
 Before execute, you need to download my dependencies library:  
