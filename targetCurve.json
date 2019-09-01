@@ -21,6 +21,7 @@
         "CompensationFile": "C:\\AutoEq-master\\innerfidelity\\data\\inear\\Etymotic ER4SR\\Etymotic ER4SR.csv",
         "HeadphoneType": "InEar",
         "ResultDisplayName": "etymotic_er4sr",
+        "Behavior": "Mimesis"
     },
     {
         "CompensationFile": "C:\\AutoEq-master\\innerfidelity\\data\\inear\\Sennheiser IE 800\\Sennheiser IE 800.csv",
