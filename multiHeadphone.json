@@ -1,12 +1,12 @@
 [
     {
-        "InputFolder":  "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Audio Technica ATH-M50x",
+        "InputFolder": "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Audio Technica ATH-M50x",
         "OutputFolder": "myresults\\m50x",
-        "HeadphoneType" : "OnEar"
+        "HeadphoneType": "OnEar"
     },
     {
-        "InputFolder":  "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Beyerdynamic DT 880 250 Ohm",
+        "InputFolder": "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Beyerdynamic DT 880 250 Ohm",
         "OutputFolder": "myresults\\m50x",
-        "HeadphoneType" : "OnEar"
+        "HeadphoneType": "OnEar"
     }
 ]
