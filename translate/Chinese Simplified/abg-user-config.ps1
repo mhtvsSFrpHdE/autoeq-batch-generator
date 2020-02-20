@@ -54,7 +54,7 @@ $CSTPW_SCRIPT_FILE = "$autoEqInstallPath\AutoEqBatch.cmd"
 
 # 去除AutoEq默认的6分贝增益上限
 # 我们不解释这是什么
-$maxGain = "24.0"
+$maxGain = "48.0"
 $trebleMaxGain = $maxGain
 
 # 当一个结果已经存在时是否覆盖掉
