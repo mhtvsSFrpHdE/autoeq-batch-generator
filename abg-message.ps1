@@ -1,4 +1,4 @@
-# Error message
+﻿# Error message
 $errMsg = "ERR:"
 $errMsgEmptyValueInConfig = "$errMsg 1 Empty value in config file."
 $errMsgFailedToInitialize = "$errMsg 2 Failed to initialize."

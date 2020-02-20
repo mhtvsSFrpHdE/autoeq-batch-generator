@@ -1,4 +1,4 @@
-param (
+﻿param (
     [switch] $DisableAutoRun = $false,
     [switch] $MultiHeadphone = $false,
     [switch] $Overwrite = $false

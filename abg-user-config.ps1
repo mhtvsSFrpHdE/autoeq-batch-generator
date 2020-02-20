@@ -1,4 +1,4 @@
-# Preset argument
+﻿# Preset argument
 # Set to true if you want to use for multiple headphones mode.
 # In this mode, the following value will ignored.
 $behaviorMultiHeadphone = $false

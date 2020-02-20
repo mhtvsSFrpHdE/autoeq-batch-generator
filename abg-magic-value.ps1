@@ -1,4 +1,4 @@
-$bassBoostZeroValue = "0.0"
+﻿$bassBoostZeroValue = "0.0"
 $behaviorStandardization = "Standardization"
 $behaviorMimesis = "Mimesis"
 

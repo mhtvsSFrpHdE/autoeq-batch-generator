@@ -1,4 +1,4 @@
-# 错误信息
+﻿# 错误信息
 $errMsg = "发生错误:"
 $errMsgEmptyValueInConfig = "$errMsg 1 在预设文件中有不应该的空的数值."
 $errMsgFailedToInitialize = "$errMsg 2 失败的启动."
