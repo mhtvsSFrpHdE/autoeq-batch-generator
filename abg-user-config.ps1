@@ -6,7 +6,7 @@ $behaviorMultiHeadphone = $false
 # Both full path and relative path will work
 # The reason to use full path at here is we often copy path from Everything search software
 # This headphone model is just for demo purpose.
-$inputFolder_default = "C:\AutoEq-master\innerfidelity\data\onear\Audio Technica ATH-M50x"
+$inputFolder_default = "C:\AutoEq-master\oratory1990\data\onear\Audio-Technica ATH-M50x"
 
 # The reason to use relative path at here is human read friendly
 $outputFolder_default = "myresults\m50x"
