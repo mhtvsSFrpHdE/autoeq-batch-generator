@@ -18,19 +18,19 @@
         "Behavior": "Standardization"
     },
     {
-        "CompensationFile": "C:\\AutoEq-master\\innerfidelity\\data\\inear\\Etymotic ER4SR\\Etymotic ER4SR.csv",
+        "CompensationFile": "C:\\AutoEq-master\\oratory1990\\data\\inear\\Etymotic Research ER-4SR\\Etymotic Research ER-4SR.csv",
         "HeadphoneType": "InEar",
         "ResultDisplayName": "etymotic_er4sr",
         "Behavior": "Mimesis"
     },
     {
-        "CompensationFile": "C:\\AutoEq-master\\innerfidelity\\data\\inear\\Sennheiser IE 800\\Sennheiser IE 800.csv",
+        "CompensationFile": "C:\\AutoEq-master\\oratory1990\\data\\inear\\Sennheiser IE 800\\Sennheiser IE 800.csv",
         "HeadphoneType": "OnEar",
         "ResultDisplayName": "sennheiser_ie800",
         "Behavior": "Mimesis"
     },
     {
-        "CompensationFile": "C:\\AutoEq-master\\innerfidelity\\data\\onear\\Sennheiser HD 800\\Sennheiser HD 800.csv",
+        "CompensationFile": "C:\\AutoEq-master\\oratory1990\\data\\onear\\Sennheiser HD 800\\Sennheiser HD 800.csv",
         "HeadphoneType": "OnEar",
         "ResultDisplayName": "sennheiser_hd800",
         "Behavior": "Mimesis"
