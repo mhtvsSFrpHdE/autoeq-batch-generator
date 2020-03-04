@@ -25,8 +25,6 @@ outputFolderDefault = r"myresults\m50x"
 pipCustomArgument = r""
 
 
-
-
 # The values you can change, but not recommend.
 
 # AutoEq install path
