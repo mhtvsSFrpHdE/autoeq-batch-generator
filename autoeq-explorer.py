@@ -17,4 +17,9 @@ argParser.add_argument("-a", "--allToAll",
 
 args = argParser.parse_args()
 
-print(args.multiHeadphone)
+# Scan flags
+# MUST apply all flags here before enter code
+# the arguments should not change by code after scan flags
+if args.allToAll is True:
+    args.multiHeadphone = True
+    args.override = False
