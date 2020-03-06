@@ -5,3 +5,7 @@ simplecatch.ps1
 
 # Visual Studio Code
 .vscode/launch.json
+.vscode/.ropeproject/objectdb
+
+# Python interactive mode alternative
+temp.py
