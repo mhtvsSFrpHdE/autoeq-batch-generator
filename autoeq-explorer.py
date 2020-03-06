@@ -10,6 +10,10 @@ argParser.add_argument("-m", "--multiHeadphone",
 argParser.add_argument("-o", "--overwrite",
                        help="Overwrite existing results",
                        action="store_true")
+# AllToAll
+argParser.add_argument("-a", "--allToAll",
+                       help="Turn on all to all preprocessor",
+                       action="store_true")
 
 args = argParser.parse_args()
 
