@@ -82,3 +82,11 @@ def myConfigParser():
 
     myLocaleParser()
 
+# int main () {
+def main():
+
+    myArgParser()
+    myConfigParser()
+#}
+
+main()
