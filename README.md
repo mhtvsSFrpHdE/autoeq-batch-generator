@@ -1,5 +1,4 @@
-**Contact**  
-See https://github.com/mhtvsSFrpHdE/contact-me  
+![](https://raw.githubusercontent.com/mhtvsSFrpHdE/contact-me/master/AboutIssue.svg)
 
 # autoeq-batch-generator
 **What is this**  
