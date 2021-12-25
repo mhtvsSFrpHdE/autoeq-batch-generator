@@ -1,7 +1,7 @@
-# autoeq-batch-generator
 **Contact**  
 See https://github.com/mhtvsSFrpHdE/contact-me  
 
+# autoeq-batch-generator
 **What is this**  
 The AutoEq project:  
 https://github.com/jaakkopasanen/AutoEq  
